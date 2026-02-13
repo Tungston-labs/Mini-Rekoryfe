@@ -21,14 +21,10 @@ export const TableHeader = styled.th`
   padding: 12px 16px;
   text-align: left;
   border-bottom: 1px solid #ddd;
-
 font-weight: 500;
-
 font-size: 14px;
-
 line-height: 22px;
 letter-spacing: 0%;
-/* text-align: center; */
 `;
 
 export const TableBody = styled.tbody``;

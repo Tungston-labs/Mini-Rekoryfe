@@ -1,22 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import { FiFilter, FiSearch } from "react-icons/fi";
+import {  FiSearch } from "react-icons/fi";
 
-const EmployeeSearch = () => {
+const EmployeeSearch = ({ searchValue, onSearchChange }) => {
   return (
     <Wrapper>
-      <FilterButton>
-        <FiFilter />
-        <span>Filter</span>
-      </FilterButton>
-
       <SearchBox>
         <SearchIcon>
           <FiSearch />
         </SearchIcon>
-        <SearchInput
+       <SearchInput
           type="text"
-          placeholder="Search employees "
+          value={searchValue}
+          onChange={(e) => onSearchChange(e.target.value)}
+          placeholder="Search companies..."
         />
       </SearchBox>
     </Wrapper>
@@ -36,26 +33,7 @@ const Wrapper = styled.div`
   max-width: 500px;
 `;
 
-const FilterButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  background: #f5f6f8;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
-    color: #999;
 
-  svg {
-    font-size: 16px;
-  }
-
-  &:hover {
-    background: #eaecef;
-  }
-`;
 
 const SearchBox = styled.div`
   display: flex;

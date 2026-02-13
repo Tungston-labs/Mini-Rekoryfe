@@ -10,8 +10,8 @@ export const AvatarWrapper = styled.div`
 `;
 
 export const Avatar = styled.img`
-  width: 64px;
-  height: 64px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   object-fit: cover;
 `;

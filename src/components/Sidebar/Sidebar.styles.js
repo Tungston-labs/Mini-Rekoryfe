@@ -11,7 +11,11 @@ export const SidebarContainer = styled.aside`
   justify-content: space-between;
 `;
 
-export const TopSection = styled.div``;
+export const TopSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;  
+`;
 
 export const LogoWrapper = styled.div`
   height: 120px;
@@ -27,19 +31,21 @@ export const Logo = styled.img`
 
 export const Menu = styled.div`
   padding: 20px;
-  margin-top: 20px;
+  margin-top: 25px;
+
 `;
 
 export const MenuItem = styled(NavLink)`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 15px;
   padding: 12px 14px;
   cursor: pointer;
   border-radius: 8px;
   font-size: 15px;
   color: white;
   text-decoration: none;
+ margin-top: 10px;
 
   &.active {
     background: rgba(255, 255, 255, 0.2);
@@ -79,9 +85,10 @@ export const DropdownItem = styled(NavLink)`
   cursor: pointer;
   color: #fff;
   position: relative;
-
-  &:hover {
-    text-decoration: underline;
+ text-decoration: none;
+ 
+ &.active {
+    text-decoration:underline;
   }
 
   &::before {
@@ -97,4 +104,5 @@ export const DropdownItem = styled(NavLink)`
 export const BottomImage = styled.img`
   width: 90%;
   padding: 20px;
+    margin-top: auto; 
 `;

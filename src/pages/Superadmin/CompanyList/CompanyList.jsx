@@ -1,48 +1,50 @@
-import React,{useState} from 'react'
-import PageHeader from '../../../components/SuperAdmin/PageHeader/PageHeader'
-import ReusableTable from '../../../components/Table/ReusableTable';
-import { useNavigate } from 'react-router-dom';
-import Topbar from '../../../components/SuperAdmin/Topbar/Topbar';
-import FilterBar from '../../../components/SuperAdmin/FilterBar/FilterBar';
+import React, { useState } from "react";
+import PageHeader from "../../../components/SuperAdmin/PageHeader/PageHeader";
+import ReusableTable from "../../../components/Table/ReusableTable";
+import { useNavigate } from "react-router-dom";
+import Topbar from "../../../components/SuperAdmin/Topbar/Topbar";
+import FilterBar from "../../../components/SuperAdmin/FilterBar/FilterBar";
+import { useCompanies } from "../../../hooks/superadmin/useCompanies";
+import PageSkeleton from "../../../components/Skeleton/PageSkeleton";
+import { useDebounce } from "../../../hooks/superadmin/useDebounce";
+import { useDeleteCompany } from "../../../hooks/superadmin/useDeleteCompany";
 function CompanyList() {
   const navigate = useNavigate();
-    const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState('');
-  const data = [
-    { id: 1, name: 'Company A', address: 'kochi,Ernakulam', company_id: 'uqs_arm_koc_585', contact: "9874563210", employees_count: "10" },
-    { id: 2, name: 'Company B', address: 'kochi,Ernakulam', company_id: 'uqs_arm_koc_585', contact: "9874563210", employees_count: "10" },
-    { id: 3, name: 'Company C', address: 'kochi,Ernakulam', company_id: 'uqs_arm_koc_585', contact: "9874563210", employees_count: "10" },
-  ];
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 500);
+  const [filter, setFilter] = useState("");
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
+  const { data, isLoading, isError } =
+    useCompanies(debouncedSearch, page, pageSize);
 
+  const { mutate: deleteCompanyMutate, isPending: isDeleting } =
+    useDeleteCompany();
   const columns = [
-    { label: 'Company Name', key: 'name' },
-    { label: 'Address', key: 'address' },
-    { label: 'Company Id', key: 'company_id' },
-    { label: 'Contact Details', key: 'contact' },
-    { label: 'No.Of Employees', key: 'employees_count' },
+    { label: "Company Name", key: "company_name" },
+    { label: "Address", key: "address" },
+    { label: "Email Id", key: "email" },
+    { label: "Contact Details", key: "contact_number" },
+    { label: "No.Of Employees", key: "no_of_employees" },
   ];
 
- const filteredData = data.filter((item) => {
-    return (
-      item.name.toLowerCase().includes(search.toLowerCase()) &&
-      (filter ? item.country === filter : true)
-    );
-  });
-  const handleEdit = (row) => {
-    navigate(`/superadmin/companies/edit/${row.id}`);
-  };
-
+  const handleEdit = (row) => navigate(`/superadmin/companies/edit/${row.id}`);
   const handleDelete = (row) => {
-    console.log('Delete clicked', row);
+    if (window.confirm("Are you sure you want to delete this company?")) {
+      deleteCompanyMutate(row.id);
+    }
   };
-  const handleAddCompany = () => {
-    navigate('/superadmin/companies/add');
-  };
+  const handleAddCompany = () => navigate("/superadmin/companies/add");
+  const handleRowClick = (row) => navigate(`/superadmin/companies/info/${row.id}`);
+
+  if (isLoading) return <div><PageSkeleton /></div>;
+  if (isError) return <div>Error fetching companies</div>;
+
   return (
     <div>
-      <Topbar/>
+      <Topbar />
       <PageHeader
-        title="List Of All Company"
+        title="List Of All Companies"
         subtitle="Manage all departments within the organization."
         rightContent={
           <button className="primary-btn" onClick={handleAddCompany}>
@@ -50,22 +52,28 @@ function CompanyList() {
           </button>
         }
       />
-    <FilterBar
+      <FilterBar
         searchValue={search}
-        onSearchChange={setSearch}
+        onSearchChange={(val) => {
+          setSearch(val);
+          setPage(1);
+        }}
         onFilterChange={setFilter}
       />
       <ReusableTable
         columns={columns}
-        data={data}
+        data={data.results}
+        onRowClick={handleRowClick}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        pagination={{
+          currentPage: data?.current_page,
+          totalPages: data?.total_pages,
+          onPageChange: setPage,
+        }}
       />
-
     </div>
-  )
+  );
 }
 
-export default CompanyList
-
-
+export default CompanyList;

@@ -1,148 +1,216 @@
-import React, { useState, useEffect } from 'react';
-import PageHeader from '../../../components/SuperAdmin/PageHeader/PageHeader';
+import React from "react";
+import PageHeader from "../../../components/SuperAdmin/PageHeader/PageHeader";
 import {
-    PageWrapper,
-    FormGrid,
-    LeftColumn,
-    RightColumn,
-    Field,
-    Label,
-    Input,
-    Select,
-    ButtonRow,
-    SaveButton,
-    CancelButton,
-} from "../CompanyAdd/CompanyAddPage.styles";
-import CompanyLogoUpload from '../../../components/SuperAdmin/CompanyLogoUpload/CompanyLogoUpload';
-import Topbar from '../../../components/SuperAdmin/Topbar/Topbar';
-import { useNavigate } from 'react-router-dom';
-function CompanyEditPage({ companyData, onCancel, onUpdate }) {
-      const navigate = useNavigate();
-    const [formState, setFormState] = useState({
-        companyName: "",
-        email: "",
-        contactNumber: "",
-        address: "",
-        location: "",
-        country: "",
-        latitude: "",
-        longitude: "",
-        registrationDate: "",
-        allowedRole: "",
-        planAmount: "",
-        initialPayment: "",
-    });
+  PageWrapper,
+  FormGrid,
+  LeftColumn,
+  RightColumn,
+  Field,
+  Label,
+  Input,
+  ButtonRow,
+  SaveButton,
+  CancelButton,
+  ErrorText,
+  StyledSelectWrapper,
+  StyledSelect,
+} from "./CompanyEdit.styles";
+import CompanyLogoUpload from "../../../components/SuperAdmin/CompanyLogoUpload/CompanyLogoUpload";
+import Topbar from "../../../components/SuperAdmin/Topbar/Topbar";
+import { countryOptions, roleOptions } from "../CompanyAdd/countryOptions";
+import Select from "react-select";
 
-    useEffect(() => {
-        if (companyData) {
-            setFormState({
-                companyName: companyData.companyName || "",
-                email: companyData.email || "",
-                contactNumber: companyData.contactNumber || "",
-                address: companyData.address || "",
-                location: companyData.location || "",
-                country: companyData.country || "",
-                latitude: companyData.latitude || "",
-                longitude: companyData.longitude || "",
-                registrationDate: companyData.registrationDate || "",
-                allowedRole: companyData.allowedRole || "",
-                planAmount: companyData.planAmount || "",
-                initialPayment: companyData.initialPayment || "",
-            });
-        }
-    }, [companyData]);
+const CompanyEditPage = ({
+  formData = {},                        
+  handleChange = () => {},              
+  handleRoleChange = () => {},
+  handleSubmit = () => {},
+  onCancel = () => {},
+  errors = {},
+  isPending = false,
+}) => {
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormState(prev => ({ ...prev, [name]: value }));
-    };
-
-    const leftFields = [
-        { label: "Company Name", name: "companyName", placeholder: "Enter Company Name" },
-        { label: "Email Id", name: "email", placeholder: "Enter Email Id", type: "email" },
-        { label: "Contact Number", name: "contactNumber", placeholder: "Enter Contact Number" },
-        { label: "Address", name: "address", placeholder: "Enter Your Address" },
-        { label: "Company Location", name: "location", placeholder: "Location" },
-    ];
-
-    const rightFields = [
-        { label: "Country", name: "country", type: "select", options: ["Select Country"] },
-        { label: "Latitude", name: "latitude", placeholder: "Enter Company Latitude" },
-        { label: "Longitude", name: "longitude", placeholder: "Enter Company Longitude" },
-        { label: "Company Registration Date", name: "registrationDate", type: "date" },
-        { label: "Allowed Roles", name: "allowedRole", type: "select", options: ["Select Role"] },
-        { label: "Plan Amount Per Employee", name: "planAmount", placeholder: "Enter Plan Amount Per Employee" },
-        { label: "Initial Payment (Optional)", name: "initialPayment", placeholder: "Enter Initial Payment" },
-    ];
-
-    const handleSubmit = () => {
-        onUpdate(formState);
-    };
-
-    return (
-        <div>
-             <Topbar
-        showBack={true}
-        onBack={() => navigate('/superadmin/companies')} 
+  return (
+    <div>
+      <Topbar />
+      <PageHeader
+        title="Edit Company"
+        subtitle="Update company details as required."
       />
-            <PageHeader
-                title="Edit Company"
-                subtitle="Update company details as required."
-            />
-            <PageWrapper>
-                <FormGrid>
-                    <LeftColumn>
-                        <CompanyLogoUpload existingLogo={companyData?.logo} />
 
-                        {leftFields.map((field, index) => (
-                            <Field key={index}>
-                                <Label>{field.label}</Label>
-                                <Input
-                                    type={field.type || "text"}
-                                    name={field.name}
-                                    placeholder={field.placeholder}
-                                    value={formState[field.name]}
-                                    onChange={handleChange}
-                                />
-                            </Field>
-                        ))}
+      <PageWrapper>
+        <FormGrid>
+          <LeftColumn>
+            <CompanyLogoUpload existingLogo={formData.logo} />
 
-                        <ButtonRow>
-                            <SaveButton onClick={handleSubmit}>Update</SaveButton>
-                            <CancelButton onClick={onCancel}>Cancel</CancelButton>
-                        </ButtonRow>
-                    </LeftColumn>
+            <Field>
+              <Label>Company Name</Label>
+              <Input
+                name="company_name"
+                value={formData.company_name || ""}
+                onChange={handleChange}
+                placeholder="Enter Company Name"
+              />
+              {errors.company_name && <ErrorText>{errors.company_name}</ErrorText>}
+            </Field>
 
-                    <RightColumn>
-                        {rightFields.map((field, index) => (
-                            <Field key={index}>
-                                <Label>{field.label}</Label>
-                                {field.type === "select" ? (
-                                    <Select
-                                        name={field.name}
-                                        value={formState[field.name]}
-                                        onChange={handleChange}
-                                    >
-                                        {field.options.map((option, i) => (
-                                            <option key={i} value={option}>{option}</option>
-                                        ))}
-                                    </Select>
-                                ) : (
-                                    <Input
-                                        type={field.type || "text"}
-                                        name={field.name}
-                                        placeholder={field.placeholder}
-                                        value={formState[field.name]}
-                                        onChange={handleChange}
-                                    />
-                                )}
-                            </Field>
-                        ))}
-                    </RightColumn>
-                </FormGrid>
-            </PageWrapper>
-        </div>
-    );
-}
+            <Field>
+              <Label>Email Id</Label>
+              <Input
+                type="email"
+                name="email"
+                value={formData.email || ""}
+                onChange={handleChange}
+                placeholder="Enter Email Id"
+              />
+              {errors.email && <ErrorText>{errors.email}</ErrorText>}
+            </Field>
+
+            <Field>
+              <Label>Contact Number</Label>
+              <Input
+                name="contact_number"
+                value={formData.contact_number || ""}
+                onChange={handleChange}
+                placeholder="Enter Contact Number"
+              />
+              {errors.contact_number && <ErrorText>{errors.contact_number}</ErrorText>}
+            </Field>
+
+            <Field>
+              <Label>Address</Label>
+              <Input
+                name="address"
+                value={formData.address || ""}
+                onChange={handleChange}
+                placeholder="Enter Your Address"
+              />
+              {errors.address && <ErrorText>{errors.address}</ErrorText>}
+            </Field>
+
+            <Field>
+              <Label>Company Location</Label>
+              <Input
+                name="location"
+                value={formData.location || ""}
+                onChange={handleChange}
+                placeholder="Location"
+              />
+              {errors.location && <ErrorText>{errors.location}</ErrorText>}
+            </Field>
+
+            <ButtonRow>
+              <SaveButton onClick={handleSubmit} disabled={isPending}>
+                {isPending ? "Saving..." : "Save"}
+              </SaveButton>
+              <CancelButton type="button" onClick={onCancel}>
+                Cancel
+              </CancelButton>
+            </ButtonRow>
+          </LeftColumn>
+
+          <RightColumn>
+            <Field>
+              <Label>Country</Label>
+              <StyledSelectWrapper>
+                <Select
+                  classNamePrefix="react-select"
+                  options={countryOptions}
+                  value={countryOptions.find(
+                    (option) => option.value === (formData.country || "")
+                  )}
+                  onChange={(selectedOption) =>
+                    handleChange({
+                      target: {
+                        name: "country",
+                        value: selectedOption?.value || "",
+                      },
+                    })
+                  }
+                  placeholder="Search or select country"
+                  isSearchable
+                />
+              </StyledSelectWrapper>
+              {errors.country && <ErrorText>{errors.country}</ErrorText>}
+            </Field>
+
+            <Field>
+              <Label>Latitude</Label>
+              <Input
+                name="latitude"
+                value={formData.latitude || ""}
+                onChange={handleChange}
+                placeholder="Enter Company Latitude"
+              />
+              {errors.latitude && <ErrorText>{errors.latitude}</ErrorText>}
+            </Field>
+
+            <Field>
+              <Label>Longitude</Label>
+              <Input
+                name="longitude"
+                value={formData.longitude || ""}
+                onChange={handleChange}
+                placeholder="Enter Company Longitude"
+              />
+              {errors.longitude && <ErrorText>{errors.longitude}</ErrorText>}
+            </Field>
+
+            <Field>
+              <Label>Company Registration Date</Label>
+              <Input
+                type="date"
+                name="registration_date"
+                min={new Date().toISOString().split("T")[0]}
+                value={formData.registration_date || ""}
+                onChange={handleChange}
+              />
+              {errors.registration_date && <ErrorText>{errors.registration_date}</ErrorText>}
+            </Field>
+
+            <Field>
+              <Label>Allowed Roles</Label>
+              <StyledSelect
+                classNamePrefix="react-select"
+                isMulti
+                name="allowed_roles"
+                options={roleOptions}
+                value={roleOptions.filter(option =>
+                  (formData.allowed_roles || []).includes(option.value)
+                )}
+                onChange={handleRoleChange}
+                placeholder="Select Allowed Roles"
+                isSearchable
+              />
+
+              {errors.allowed_roles && <ErrorText>{errors.allowed_roles}</ErrorText>}
+            </Field>
+
+            <Field>
+              <Label>Plan Amount Per Employee</Label>
+              <Input
+                name="plan_amount_per_employee"
+                value={formData.plan_amount_per_employee || ""}
+                onChange={handleChange}
+                placeholder="Enter Plan Amount Per Employee"
+              />
+              {errors.plan_amount_per_employee && <ErrorText>{errors.plan_amount_per_employee}</ErrorText>}
+            </Field>
+
+            <Field>
+              <Label>Initial Payment (Optional)</Label>
+              <Input
+                name="initial_payment"
+                value={formData.initial_payment || ""}
+                onChange={handleChange}
+                placeholder="Enter Initial Payment"
+              />
+            </Field>
+          </RightColumn>
+        </FormGrid>
+      </PageWrapper>
+    </div>
+  );
+};
 
 export default CompanyEditPage;

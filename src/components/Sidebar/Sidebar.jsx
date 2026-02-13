@@ -24,13 +24,11 @@ const Sidebar = () => {
                 <LogoWrapper>
                     <Logo src={logo} alt="Rekory" />
                 </LogoWrapper>
-
                 <Menu>
                     <MenuItem to="/superadmin/dashboard">
                         <GiCube size={18} />
                         Dashboard
                     </MenuItem>
-
                     <MenuItem as="div" onClick={() => setOpenCompany(!openCompany)}>
                         <PiBuildings size={18} />
                         Companies
@@ -40,7 +38,6 @@ const Sidebar = () => {
                             <FiChevronDown style={{ marginLeft: "auto" }} />
                         )}
                     </MenuItem>
-
                     {openCompany && (
                         <Dropdown>
                             <DropdownItem to="/superadmin/companies">
@@ -54,8 +51,6 @@ const Sidebar = () => {
                     )}
                 </Menu>
             </TopSection>
-
-            {/* BOTTOM IMAGE */}
             <BottomImage src={illustration} alt="illustration" />
         </SidebarContainer>
     );

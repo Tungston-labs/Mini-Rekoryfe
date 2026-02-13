@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Topbar from "../../../components/SuperAdmin/Topbar/Topbar";
 import PageHeader from "../../../components/SuperAdmin/PageHeader/PageHeader";
 import ToggleSwitch from "../../../components/SuperAdmin/ui/ToggleSwitch";
@@ -12,54 +12,66 @@ import {
   AvatarWrapper,
 } from "./CompanyInfo.styles";
 import PaymentHistory from "../../../components/SuperAdmin/plan/PaymentHistory";
+import { useNavigate, useParams } from "react-router-dom";
+import { useCompany } from "../../../hooks/superadmin/useCompany";
 
 function CompanyInfo() {
-  const [enabled, setEnabled] = useState(false);
+  const navigate = useNavigate();
+  const { id } = useParams();
 
-const companyInfoFields = [
-  { label: "Company Name", value: "InfoTech" },
-  { label: "Address", value: "ernakulam" },
-  { label: "Latitude", value: "12.21" },
-  { label: "Email Id", value: "dilshimap@gmail.com" },
-  { label: "Company Location", value: "kochi" },
-  { label: "Country", value: "India" },
-  { label: "Contact Number", value: "+919087654320" },
-  { label: "Longitude", value: "10.21" },
-  { label: "Company Registration Date", value: "2024-05-01" },
-  { label: "Allowed Roles", value: "Admin, HR, Employee" },
-  { label: "Plan Amount Per Employee", value: "500" },
-  { label: "Initial Payment (Optional)", value: "1000" },
-];
+  const { data: company, isLoading, error } = useCompany(id);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading company</p>;
+
+  const companyInfoFields = [
+    { label: "Company Name", value: company?.company_name },
+    { label: "Address", value: company?.address },
+    { label: "Latitude", value: company?.latitude },
+        { label: "Longitude", value: company?.longitude },
+    { label: "Email Id", value: company?.email },
+    { label: "Country", value: company?.country },
+    { label: "Contact Number", value: company?.contact_number },
+    { label: "Company Registration Date", value: company?.registration_date },
+    { label: "Allowed Roles", value: company?.allowed_roles?.join(", ") },
+    { label: "Plan Amount Per Employee", value: company?.plan_amount_per_employee },
+    { label: "Initial Payment", value: company?.initial_payment },
+  ];
 
   return (
     <div>
-      <Topbar />
+      <Topbar
+        showBack={true}
+        onBack={() => navigate("/superadmin/companies")}
+      />
 
       <PageHeader
-        title="Super Admin"
-        subtitle="Manage all departments within the organization."
+        title="Company Info"
+        subtitle="View company details"
         rightContent={
-          <ToggleSwitch value={enabled} onChange={setEnabled} />
+          <ToggleSwitch
+            value={company?.is_active}
+            onChange={() => {}}
+          />
         }
       />
 
       <PageWrapper>
         <AvatarWrapper>
           <Avatar
-            src="https://via.placeholder.com/80"
+            src={company?.logo}
             alt="Company Logo"
           />
         </AvatarWrapper>
 
-   <FormGrid>
-  {companyInfoFields.map((item, index) => (
-    <Field key={index}>
-      <Label>{item.label}</Label>
-      <Input value={item.value} readOnly />
-    </Field>
-  ))}
-</FormGrid>
-
+        <FormGrid>
+          {companyInfoFields.map((item, index) => (
+            <Field key={index}>
+              <Label>{item.label}</Label>
+              <Input value={item.value || "-"} readOnly />
+            </Field>
+          ))}
+        </FormGrid>
       </PageWrapper>
 
       <PaymentHistory />

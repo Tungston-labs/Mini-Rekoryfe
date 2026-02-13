@@ -11,16 +11,15 @@ import {
 } from './ReusableTable.styles';
 import { LuPencilLine } from "react-icons/lu";
 import { RiDeleteBinLine } from "react-icons/ri";
-
-/**
- * Reusable Table with Data Columns + Separate Edit/Delete Columns
- *
- * @param {Array} columns - Array of objects { label: "Column Name", key: "fieldKey" }
- * @param {Array} data - Array of row objects
- * @param {Function} onEdit - callback(row) for edit icon
- * @param {Function} onDelete - callback(row) for delete icon
- */
-const ReusableTable = ({ columns, data, onEdit, onDelete }) => {
+import Pagination from '../Pagination/Pagination';
+const ReusableTable = ({
+  columns,
+  data,
+  onEdit,
+  onDelete,
+  onRowClick,
+  pagination
+}) => {
   return (
     <TableWrapper>
       <StyledTable>
@@ -33,22 +32,43 @@ const ReusableTable = ({ columns, data, onEdit, onDelete }) => {
             {onDelete && <TableHeader>Delete</TableHeader>}
           </tr>
         </TableHead>
+
         <TableBody>
           {data.map((row, rowIndex) => (
-            <TableRow key={rowIndex}>
+            <TableRow
+              key={rowIndex}
+              onClick={() => onRowClick?.(row)}  
+              style={{ cursor: onRowClick ? "pointer" : "default" }}
+            >
               {columns.map((col, colIndex) => (
-                <TableCell key={colIndex}>{row[col.key]}</TableCell>
+                <TableCell key={colIndex}>
+                  {row[col.key]}
+                </TableCell>
               ))}
+
               {onEdit && (
                 <TableCell>
-                  <IconButton color='#636363' onClick={() => onEdit(row)}>
+                  <IconButton
+                    color="#636363"
+                    onClick={(e) => {
+                      e.stopPropagation(); 
+                      onEdit(row);
+                    }}
+                  >
                     <LuPencilLine />
                   </IconButton>
                 </TableCell>
               )}
+
               {onDelete && (
                 <TableCell>
-                  <IconButton color="#C61217" onClick={() => onDelete(row)}>
+                  <IconButton
+                    color="#C61217"
+                    onClick={(e) => {
+                      e.stopPropagation(); 
+                      onDelete(row);
+                    }}
+                  >
                     <RiDeleteBinLine />
                   </IconButton>
                 </TableCell>
@@ -57,6 +77,14 @@ const ReusableTable = ({ columns, data, onEdit, onDelete }) => {
           ))}
         </TableBody>
       </StyledTable>
+       {pagination && (
+  <Pagination
+    currentPage={pagination.currentPage}
+    totalPages={pagination.totalPages}
+    onPageChange={pagination.onPageChange}
+  />
+)}
+
     </TableWrapper>
   );
 };

@@ -16,7 +16,6 @@ const PageHeader = ({ title, subtitle, rightContent }) => {
         {subtitle && <SubTitle>{subtitle}</SubTitle>}
       </Left>
 
-      {/* RIGHT SIDE (dynamic) */}
       {rightContent && <Right>{rightContent}</Right>}
     </HeaderContainer>
   );

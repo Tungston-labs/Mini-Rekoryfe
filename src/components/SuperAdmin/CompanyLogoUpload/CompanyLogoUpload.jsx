@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import {
   Wrapper,
   Circle,
@@ -9,22 +9,32 @@ import {
 } from "./CompanyLogoUpload.styles";
 import { FiImage, FiX } from "react-icons/fi";
 
-const CompanyLogoUpload = () => {
+const CompanyLogoUpload = ({ value, onChange }) => {
   const fileRef = useRef(null);
-  const [preview, setPreview] = useState(null);
 
   const handleChange = (e) => {
     const file = e.target.files[0];
-    if (file) setPreview(URL.createObjectURL(file));
+    if (file) {
+      onChange(file); 
+    }
   };
 
+  const handleRemove = (e) => {
+    e.stopPropagation();
+    onChange(null);
+  };
+
+  const preview =
+    value instanceof File
+      ? URL.createObjectURL(value)
+      : value;
   return (
     <Wrapper>
       <Circle onClick={() => fileRef.current.click()}>
         {preview ? (
           <>
             <img src={preview} alt="logo" />
-            <RemoveIcon onClick={() => setPreview(null)}>
+            <RemoveIcon onClick={handleRemove}>
               <FiX size={12} />
             </RemoveIcon>
           </>

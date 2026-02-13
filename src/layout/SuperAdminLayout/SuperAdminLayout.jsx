@@ -14,10 +14,7 @@ const SuperAdminLayout = () => {
     <Container>
       <Main>
         <Sidebar />
-
         <RightSection>
-
-          
           <Content>
             <Outlet />
           </Content>

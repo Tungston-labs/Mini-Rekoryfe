@@ -8,8 +8,8 @@ export const Wrapper = styled.div`
 `;
 
 export const Circle = styled.div`
-  width: 80px;
-  height: 80px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   background: #f3f4f6;
   display: flex;
@@ -17,14 +17,16 @@ export const Circle = styled.div`
   justify-content: center;
   position: relative;
   cursor: pointer;
-  overflow: hidden;
+  overflow: visible; 
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%; 
   }
 `;
+
 
 export const UploadIcon = styled.div`
   color: #6b7280;
@@ -32,17 +34,21 @@ export const UploadIcon = styled.div`
 
 export const RemoveIcon = styled.div`
   position: absolute;
-  bottom: 4px;
-  right: 4px;
+  top: -6px;     
+  right: -6px;  
   background: #dc2626;
   color: white;
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 `;
+
 
 export const Label = styled.span`
   font-size: 13px;
