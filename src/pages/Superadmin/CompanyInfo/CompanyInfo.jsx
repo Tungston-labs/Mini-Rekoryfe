@@ -28,7 +28,7 @@ function CompanyInfo() {
     { label: "Company Name", value: company?.company_name },
     { label: "Address", value: company?.address },
     { label: "Latitude", value: company?.latitude },
-        { label: "Longitude", value: company?.longitude },
+    { label: "Longitude", value: company?.longitude },
     { label: "Email Id", value: company?.email },
     { label: "Country", value: company?.country },
     { label: "Contact Number", value: company?.contact_number },
@@ -51,7 +51,7 @@ function CompanyInfo() {
         rightContent={
           <ToggleSwitch
             value={company?.is_active}
-            onChange={() => {}}
+            onChange={() => { }}
           />
         }
       />

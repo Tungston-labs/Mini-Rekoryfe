@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import CompanyEditPage from "./CompanyEditPage";
+import CompanyEditPage from "./CompanyEdit";
 import { useUpdateCompany } from "../../../hooks/superadmin/useUpdateCompany";
 import { useCompany } from "../../../hooks/superadmin/useCompany";
+import PageSkeleton from "../../../components/Skeleton/PageSkeleton";
 
 const CompanyEditContainer = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-
   const { data: companyData, isLoading } = useCompany(id);
-
-
   const { mutateAsync: updateCompany, isPending } = useUpdateCompany();
 
   const [formData, setFormData] = useState({});
@@ -20,24 +18,22 @@ const CompanyEditContainer = () => {
   useEffect(() => {
     if (companyData) {
       setFormData({
-        companyName: companyData.company_name || "",
+        company_name: companyData.company_name || "",
         email: companyData.email || "",
-        contactNumber: companyData.contact_number || "",
+        contact_number: companyData.contact_number || "",
         address: companyData.address || "",
         country: companyData.country || "",
         latitude: companyData.latitude || "",
         longitude: companyData.longitude || "",
-        registrationDate: companyData.registration_date || "",
-        allowedRole: companyData.allowed_roles || [],
-        planAmount: companyData.plan_amount_per_employee || "",
-        initialPayment: companyData.initial_payment || "",
+        registration_date: companyData.registration_date || "",
+        allowed_roles: companyData.allowed_roles || [],
+        plan_amount_per_employee:
+          companyData.plan_amount_per_employee || "",
+        initial_payment: companyData.initial_payment ?? "",
+        logo: companyData.logo || "",
       });
     }
   }, [companyData]);
-
-  // --------------------------
-  // Handlers
-  // --------------------------
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,61 +44,56 @@ const CompanyEditContainer = () => {
     const selected = selectedOptions
       ? selectedOptions.map((o) => o.value)
       : [];
-    setFormData((prev) => ({ ...prev, allowedRole: selected }));
+    setFormData((prev) => ({ ...prev, allowed_roles: selected }));
   };
-
   const validate = () => {
     const newErrors = {};
 
-    if (!formData.companyName)
-      newErrors.companyName = "Company Name is required";
-
-    if (!formData.email)
-      newErrors.email = "Email is required";
+    if (!formData.company_name?.trim()) {
+      newErrors.company_name = "Company Name is required";
+    }
 
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async () => {
-    if (!validate()) return;
+const handleSubmit = async () => {
+  if (!validate()) return;
 
-    try {
-      await updateCompany({
-        id,
-        data: {
-          company_name: formData.companyName,
-          email: formData.email,
-          contact_number: formData.contactNumber,
-          address: formData.address,
-          country: formData.country,
-          latitude: formData.latitude,
-          longitude: formData.longitude,
-          registration_date: formData.registrationDate,
-          allowed_roles: formData.allowedRole,
-          plan_amount_per_employee: formData.planAmount,
-          initial_payment: formData.initialPayment,
-        },
-      });
+  try {
+    const { allowed_roles, email, logo, ...rest } = formData;
 
-      navigate("/superadmin/companies");
+    const updateData = { ...rest };
 
-    } catch (error) {
-      console.error("Update failed", error);
+    // ✅ Only include logo if it's a File
+    if (logo instanceof File) {
+      updateData.logo = logo;
     }
-  };
+console.log({updateData})
+// return
+    await updateCompany({
+      id,
+      data: updateData,
+    });
+
+    navigate("/superadmin/companies");
+  } catch (error) {
+    console.error("Update failed", error);
+  }
+};
+
+
+
 
   const handleCancel = () => {
     navigate("/superadmin/companies");
   };
-
-  // --------------------------
-  // Loading State
-  // --------------------------
-
-  if (isLoading) return <div>Loading...</div>;
-
+  if (isLoading)
+    return (
+      <div>
+        <PageSkeleton />
+      </div>
+    );
   return (
     <CompanyEditPage
       formData={formData}
@@ -111,7 +102,10 @@ const CompanyEditContainer = () => {
       handleSubmit={handleSubmit}
       onCancel={handleCancel}
       errors={errors}
-      isSubmitting={isPending}
+      isPending={isPending}
+      handleLogoChange={(file) =>
+        setFormData((prev) => ({ ...prev, logo: file }))
+      }
     />
   );
 };

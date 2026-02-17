@@ -79,16 +79,19 @@ export const Dropdown = styled.div`
 `;
 
 
-export const DropdownItem = styled(NavLink)`
+export const DropdownItem = styled(NavLink).attrs({
+  end: true,
+})`
   font-size: 14px;
   padding: 6px 0;
   cursor: pointer;
   color: #fff;
   position: relative;
- text-decoration: none;
- 
- &.active {
-    text-decoration:underline;
+  text-decoration: none;
+
+  &.active {
+    text-decoration: underline;
+    font-weight: 500;
   }
 
   &::before {
@@ -100,6 +103,7 @@ export const DropdownItem = styled(NavLink)`
     border-top: 1px dashed rgba(255, 255, 255, 0.4);
   }
 `;
+
 
 export const BottomImage = styled.img`
   width: 90%;

@@ -42,7 +42,7 @@ const SearchBox = styled.div`
   border-radius: 8px;
   padding: 8px 12px;
 
-  /* Limit width */
+
   width: 300px;
 `;
 

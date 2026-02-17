@@ -4,7 +4,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   if (!totalPages || totalPages <= 1) return null;
 const getPages = () => {
   const pages = [];
-  const delta = 1; // how many pages around current
+  const delta = 1;
 
   const left = Math.max(2, currentPage - delta);
   const right = Math.min(totalPages - 1, currentPage + delta);

@@ -58,7 +58,7 @@ export const updateCompany = async ({ id, data }) => {
 
   // axios will set the correct multipart boundary header automatically,
   // so don't manually set Content-Type here.
-  const response = await api.put(`/api/superadmin/companies/${id}/`, formData);
+  const response = await api.patch(`/api/superadmin/companies/${id}/`, formData);
 
   return response.data;
 };

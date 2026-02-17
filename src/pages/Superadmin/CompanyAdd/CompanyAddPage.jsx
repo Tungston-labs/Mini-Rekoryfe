@@ -30,9 +30,9 @@ function CompanyAddPage({
   errors,
   handleCancel,
   handleLogoChange,
-   isLoading
+  isLoading
 }) {
-   if (isLoading) {
+  if (isLoading) {
     return <PageSkeleton />;
   }
   return (
@@ -46,11 +46,11 @@ function CompanyAddPage({
       <PageWrapper>
         <FormGrid>
           <LeftColumn>
-       <CompanyLogoUpload
-  value={formData.logo}
-  onChange={handleLogoChange}
-/>
-
+            <CompanyLogoUpload
+              value={formData.logo}
+              onChange={handleLogoChange}
+            />
+        {errors.logo && <ErrorText>{errors.logo}</ErrorText>}
             <Field>
               <Label>Company Name</Label>
               <Input
@@ -112,8 +112,8 @@ function CompanyAddPage({
                 {isPending ? "Saving..." : "Save"}
               </SaveButton>
               <CancelButton type="button" onClick={handleCancel}>
-    Cancel
-  </CancelButton>
+                Cancel
+              </CancelButton>
             </ButtonRow>
           </LeftColumn>
 
@@ -164,17 +164,17 @@ function CompanyAddPage({
               {errors.longitude && <ErrorText>{errors.longitude}</ErrorText>}
             </Field>
 
-           <Field>
-  <Label>Company Registration Date</Label>
-  <Input
-    type="date"
-    name="registration_date"
-    min={new Date().toISOString().split("T")[0]} 
-    value={formData.registration_date}
-    onChange={handleChange}
-  />
-  {errors.registration_date && <ErrorText>{errors.registration_date}</ErrorText>}
-</Field>
+            <Field>
+              <Label>Company Registration Date</Label>
+              <Input
+                type="date"
+                name="registration_date"
+                min={new Date().toISOString().split("T")[0]}
+                value={formData.registration_date}
+                onChange={handleChange}
+              />
+              {errors.registration_date && <ErrorText>{errors.registration_date}</ErrorText>}
+            </Field>
 
             <Field>
               <Label>Allowed Roles</Label>

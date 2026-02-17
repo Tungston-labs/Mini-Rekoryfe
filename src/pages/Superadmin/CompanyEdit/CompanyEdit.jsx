@@ -19,20 +19,26 @@ import CompanyLogoUpload from "../../../components/SuperAdmin/CompanyLogoUpload/
 import Topbar from "../../../components/SuperAdmin/Topbar/Topbar";
 import { countryOptions, roleOptions } from "../CompanyAdd/countryOptions";
 import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 
 const CompanyEditPage = ({
-  formData = {},                        
-  handleChange = () => {},              
-  handleRoleChange = () => {},
-  handleSubmit = () => {},
-  onCancel = () => {},
+
+  formData = {},
+  handleChange = () => { },
+  handleRoleChange = () => { },
+  handleSubmit = () => { },
+  onCancel = () => { },
   errors = {},
   isPending = false,
+  handleLogoChange = () => { },
 }) => {
-
+  const navigate = useNavigate();
   return (
     <div>
-      <Topbar />
+      <Topbar
+        showBack={true}
+        onBack={() => navigate("/superadmin/companies")}
+      />
       <PageHeader
         title="Edit Company"
         subtitle="Update company details as required."
@@ -41,8 +47,10 @@ const CompanyEditPage = ({
       <PageWrapper>
         <FormGrid>
           <LeftColumn>
-            <CompanyLogoUpload existingLogo={formData.logo} />
-
+            <CompanyLogoUpload
+              value={formData.logo}
+              onChange={handleLogoChange}
+            />
             <Field>
               <Label>Company Name</Label>
               <Input
@@ -53,7 +61,6 @@ const CompanyEditPage = ({
               />
               {errors.company_name && <ErrorText>{errors.company_name}</ErrorText>}
             </Field>
-
             <Field>
               <Label>Email Id</Label>
               <Input
@@ -62,10 +69,11 @@ const CompanyEditPage = ({
                 value={formData.email || ""}
                 onChange={handleChange}
                 placeholder="Enter Email Id"
+                style={{ color: "grey" }}
+                  disabled
               />
               {errors.email && <ErrorText>{errors.email}</ErrorText>}
             </Field>
-
             <Field>
               <Label>Contact Number</Label>
               <Input
@@ -76,7 +84,6 @@ const CompanyEditPage = ({
               />
               {errors.contact_number && <ErrorText>{errors.contact_number}</ErrorText>}
             </Field>
-
             <Field>
               <Label>Address</Label>
               <Input
@@ -87,8 +94,7 @@ const CompanyEditPage = ({
               />
               {errors.address && <ErrorText>{errors.address}</ErrorText>}
             </Field>
-
-            <Field>
+            {/* <Field>
               <Label>Company Location</Label>
               <Input
                 name="location"
@@ -97,10 +103,10 @@ const CompanyEditPage = ({
                 placeholder="Location"
               />
               {errors.location && <ErrorText>{errors.location}</ErrorText>}
-            </Field>
+            </Field> */}
 
             <ButtonRow>
-              <SaveButton onClick={handleSubmit} disabled={isPending}>
+              <SaveButton type="button" onClick={handleSubmit} disabled={isPending}>
                 {isPending ? "Saving..." : "Save"}
               </SaveButton>
               <CancelButton type="button" onClick={onCancel}>
@@ -181,6 +187,7 @@ const CompanyEditPage = ({
                 onChange={handleRoleChange}
                 placeholder="Select Allowed Roles"
                 isSearchable
+  disabled
               />
 
               {errors.allowed_roles && <ErrorText>{errors.allowed_roles}</ErrorText>}

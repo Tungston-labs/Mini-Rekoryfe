@@ -7,9 +7,9 @@ export const useUpdateCompany = () => {
   return useMutation({
     mutationFn: updateCompany,
 
-    onSuccess: (updatedCompany, variables) => {
+    onSuccess: (response, variables) => {
       const id = variables.id;
-      queryClient.setQueryData(["company", id], updatedCompany);
+      queryClient.setQueryData(["company", id], response);
       queryClient.invalidateQueries({ queryKey: ["companies"] });
     },
   });
