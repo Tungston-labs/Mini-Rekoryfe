@@ -10,13 +10,13 @@ import {
 import Sidebar from "../../components/Sidebar/Sidebar";
 
 const SuperAdminLayout = () => {
-  const { user } = useContext(AuthContext); // get user object
-  const role = user?.role || "superadmin";   // fallback to superadmin if undefined
+  const { user } = useContext(AuthContext); 
+  const role = user?.role || "superadmin";   
 
   return (
     <Container>
       <Main>
-        <Sidebar role={role} /> {/* Pass role here */}
+        <Sidebar role={role} /> 
         <RightSection>
           <Content>
             <Outlet />

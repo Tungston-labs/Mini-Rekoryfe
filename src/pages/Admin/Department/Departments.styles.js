@@ -6,7 +6,7 @@ export const Container = styled.div`
 
 export const Card = styled.div`
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 6px;
   padding: 24px 30px;
   margin-bottom: 25px;
   display: flex;
@@ -30,15 +30,18 @@ export const LeftSection = styled.div`
 export const IconBox = styled.div`
   width: 55px;
   height: 55px;
-  border-radius: 8px;
+  border-radius: 10%;
   border: 1px solid #e5e5e5;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  color: #e53935;
+  font-size: 30px;
+  color: #C61217;
   background: #fafafa;
+  font-weight: 600;
+  text-transform: uppercase; 
 `;
+
 
 export const DepartmentInfo = styled.div`
   display: flex;

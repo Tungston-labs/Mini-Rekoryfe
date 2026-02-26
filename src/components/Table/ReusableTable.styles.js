@@ -6,25 +6,30 @@ import styled from 'styled-components';
 export const TableWrapper = styled.div`
   width: 100%;
   overflow-x: auto;
+  margin-top: 2%;
 `;
 
 export const StyledTable = styled.table`
   width: 100%;
   border-collapse: collapse;
+
 `;
 
 export const TableHead = styled.thead`
   background-color: #FAFAFC;
+
 `;
 
 export const TableHeader = styled.th`
   padding: 12px 16px;
   text-align: left;
   border-bottom: 1px solid #ddd;
+ border-top: 1px solid #ddd;
 font-weight: 500;
 font-size: 14px;
 line-height: 22px;
 letter-spacing: 0%;
+
 `;
 
 export const TableBody = styled.tbody``;
@@ -37,11 +42,10 @@ export const TableRow = styled.tr`
 `;
 
 export const TableCell = styled.td`
-  padding: 12px 12px; 
+  padding: 8px 12px; 
   border-bottom: 1px solid #eee;
 font-weight: 300;
-font-style: Light;
-font-size: 13px;
+font-size: 14px;
 line-height: 22px;
 letter-spacing: 0%;
 /* text-align: center; */

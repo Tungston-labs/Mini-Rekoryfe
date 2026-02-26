@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { Link } from "react-router-dom";
 export const PageWrapper = styled.div`
   display: flex;
   height: 100vh;
@@ -174,4 +174,17 @@ export const ErrorText = styled.p`
   color: red;
   font-size: 13px;
   margin-top: 5px;
+`;
+export const BackLink = styled(Link)`
+  display: block;       
+  margin-top: 15px;
+  font-size: 14px;
+  color: #c61217;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;  
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;

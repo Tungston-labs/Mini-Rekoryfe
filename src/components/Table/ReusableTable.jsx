@@ -37,12 +37,12 @@ const ReusableTable = ({
           {data.map((row, rowIndex) => (
             <TableRow
               key={rowIndex}
-              onClick={() => onRowClick?.(row)}  
+              onClick={() => onRowClick?.(row)}
               style={{ cursor: onRowClick ? "pointer" : "default" }}
             >
               {columns.map((col, colIndex) => (
                 <TableCell key={colIndex}>
-                  {row[col.key]}
+                  {col.render ? col.render(row) : row[col.key]}
                 </TableCell>
               ))}
 
@@ -51,7 +51,7 @@ const ReusableTable = ({
                   <IconButton
                     color="#636363"
                     onClick={(e) => {
-                      e.stopPropagation(); 
+                      e.stopPropagation();
                       onEdit(row);
                     }}
                   >
@@ -65,7 +65,7 @@ const ReusableTable = ({
                   <IconButton
                     color="#C61217"
                     onClick={(e) => {
-                      e.stopPropagation(); 
+                      e.stopPropagation();
                       onDelete(row);
                     }}
                   >
@@ -77,13 +77,13 @@ const ReusableTable = ({
           ))}
         </TableBody>
       </StyledTable>
-       {pagination && (
-  <Pagination
-    currentPage={pagination.currentPage}
-    totalPages={pagination.totalPages}
-    onPageChange={pagination.onPageChange}
-  />
-)}
+      {pagination && (
+        <Pagination
+          currentPage={pagination.currentPage}
+          totalPages={pagination.totalPages}
+          onPageChange={pagination.onPageChange}
+        />
+      )}
 
     </TableWrapper>
   );

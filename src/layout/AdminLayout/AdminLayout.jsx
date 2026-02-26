@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
 import {
   Container,
@@ -7,13 +7,15 @@ import {
   RightSection,
 } from "./AdminLayout.styles";
 import Sidebar from "../../components/Sidebar/Sidebar";
-
+import { AuthContext } from "../../context/AuthContext";
 
 const AdminLayout = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <Container>
       <Main>
-        <Sidebar />
+        <Sidebar role={user?.role} /> 
         <RightSection>
           <Content>
             <Outlet />

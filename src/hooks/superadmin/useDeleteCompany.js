@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCompany } from "../../services/companyService";
+import { deleteCompany } from "../../services/SuperAdminServices/companyService";
 
 export const useDeleteCompany = () => {
   const queryClient = useQueryClient();
@@ -8,7 +8,6 @@ export const useDeleteCompany = () => {
     mutationFn: deleteCompany,
 
     onSuccess: () => {
-      // Refetch company list after delete
       queryClient.invalidateQueries({ queryKey: ["companies"] });
     },
   });

@@ -15,7 +15,7 @@ import { IoArrowBack } from "react-icons/io5";
 import LogoutModal from "../../../pages/LogoutModal/LogoutModal";
 import { AuthContext } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
+import { FaChevronLeft } from "react-icons/fa6";
 const Topbar = ({ title, showBack = false, onBack }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { logout } = useContext(AuthContext);
@@ -33,7 +33,7 @@ const Topbar = ({ title, showBack = false, onBack }) => {
         <LeftSection>
           {showBack && (
             <BackButton onClick={onBack}>
-              <IoArrowBack size={20} /> Back
+              <FaChevronLeft size={20} /> 
             </BackButton>
           )}
           {title && <LeftTitle>{title}</LeftTitle>}

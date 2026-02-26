@@ -11,27 +11,24 @@ import {
   DropdownItem,
   BottomImage,
 } from "./Sidebar.styles";
-
+import { LuUsersRound } from "react-icons/lu";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { GiCube } from "react-icons/gi";
-import { PiBuildings, PiUser, PiUsersThree } from "react-icons/pi";
-
+import { PiBuildings,  } from "react-icons/pi";
+import { PiUsersFour } from "react-icons/pi";
 import logo from "../../assets/images/logo.png";
 import illustration from "../../assets/images/map.png";
 
 const Sidebar = ({ role }) => {
   const location = useLocation();
-
-  // State for dropdowns
   const [openDropdowns, setOpenDropdowns] = useState({});
 
-  // Menu configuration
   const menuConfig = {
     superadmin: [
       { label: "Dashboard", path: "/superadmin/dashboard", icon: <GiCube size={18} /> },
-      { 
-        label: "Companies", 
-        path: "/superadmin/companies", 
+      {
+        label: "Companies",
+        path: "/superadmin/companies",
         icon: <PiBuildings size={18} />,
         dropdown: [
           { label: "Company List", path: "/superadmin/companies" },
@@ -39,13 +36,24 @@ const Sidebar = ({ role }) => {
         ]
       },
     ],
-    admin: [
-      { label: "Dashboard", path: "/admin/dashboard", icon: <GiCube size={18} /> },
-      { label: "Employee", path: "/admin/employee", icon: <PiUser size={18} /> },
-      { label: "Department", path: "/admin/department", icon: <PiUsersThree size={18} /> },
+    company: [
+      {
+        label: "Dashboard",
+        path: "/admin/dashboard",
+        icon: <GiCube size={18} />,
+      },
+      {
+        label: "Employee", path: "/admin/employee", icon: <LuUsersRound size={18} />,
+        dropdown: [
+          { label: "Employee List", path: "/admin/employees" },
+          { label: "Add New Employee", path: "/admin/employee/add" },
+          { label: "Attendance", path: "/admin/employees/attendance" },
+        ]
+      },
+      { label: "Department", path: "/admin/department", icon: <PiUsersFour size={18} /> },
     ]
   };
-
+  console.log("Sidebar role:", role);
   const handleToggleDropdown = (label) => {
     setOpenDropdowns(prev => ({ ...prev, [label]: !prev[label] }));
   };

@@ -70,7 +70,7 @@ const CompanyEditPage = ({
                 onChange={handleChange}
                 placeholder="Enter Email Id"
                 style={{ color: "grey" }}
-                  disabled
+                disabled
               />
               {errors.email && <ErrorText>{errors.email}</ErrorText>}
             </Field>
@@ -94,17 +94,6 @@ const CompanyEditPage = ({
               />
               {errors.address && <ErrorText>{errors.address}</ErrorText>}
             </Field>
-            {/* <Field>
-              <Label>Company Location</Label>
-              <Input
-                name="location"
-                value={formData.location || ""}
-                onChange={handleChange}
-                placeholder="Location"
-              />
-              {errors.location && <ErrorText>{errors.location}</ErrorText>}
-            </Field> */}
-
             <ButtonRow>
               <SaveButton type="button" onClick={handleSubmit} disabled={isPending}>
                 {isPending ? "Saving..." : "Save"}
@@ -187,7 +176,7 @@ const CompanyEditPage = ({
                 onChange={handleRoleChange}
                 placeholder="Select Allowed Roles"
                 isSearchable
-  disabled
+                disabled
               />
 
               {errors.allowed_roles && <ErrorText>{errors.allowed_roles}</ErrorText>}

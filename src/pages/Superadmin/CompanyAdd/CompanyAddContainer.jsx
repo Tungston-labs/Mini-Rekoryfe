@@ -135,6 +135,7 @@ const CompanyAddContainer = () => {
     allowed_roles: [],
     plan_amount_per_employee: "",
     initial_payment: "",
+      logo: null, 
   };
 
 

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toggleCompanyStatus } from "../api/companyService";
+import { toggleCompanyStatus } from "../../services/SuperAdminServices/paymentService";
 
 export const useToggleCompanyStatus = () => {
   const queryClient = useQueryClient();

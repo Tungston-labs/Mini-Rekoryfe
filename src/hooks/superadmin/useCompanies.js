@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCompanies } from "../../services/companyService";
+import { getCompanies } from "../../services/SuperAdminServices/companyService";
 
 export const useCompanies = (search, page, pageSize) => {
   return useQuery({

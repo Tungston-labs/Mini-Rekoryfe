@@ -4,6 +4,7 @@ export const Wrapper = styled.div`
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
+    padding: 20px;
 `;
 
 export const Table = styled.table`
@@ -46,14 +47,26 @@ export const CompanyInfo = styled.div`
 `;
 
 export const Status = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  height: 26px;
   padding: 4px 10px;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 400;
   border-radius: 6px;
-  color: ${({ type }) => (type === "PAID" ? "#1a7f37" : "#c62828")};
+
   border: 1px solid
-    ${({ type }) => (type === "PAID" ? "#1a7f37" : "#c62828")};
+    ${({ type }) =>
+      type?.toLowerCase() === "paid"
+        ? "#00A60B"
+        : "#BA0D11"};
+
+  color: black;
 `;
+
+
 
 export const OfferWrapper = styled.div`
   display: flex;

@@ -3,7 +3,7 @@ import Select from "react-select";
 
 export const PageWrapper = styled.div`
   background: #ffffff;
-  padding: 30px;
+  padding: 30px ;
 `;
 
 export const FormGrid = styled.div`

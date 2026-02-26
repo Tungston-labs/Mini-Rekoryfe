@@ -41,18 +41,23 @@ export const MenuItem = styled(NavLink)`
   gap: 15px;
   padding: 12px 14px;
   cursor: pointer;
-  border-radius: 8px;
-  font-size: 15px;
+  /* border-radius: 8px; */
+  font-size: 16px;
   color: white;
   text-decoration: none;
- margin-top: 10px;
+   margin-top: 10px;
+  color:rgb(226, 226, 226);
 
-  &.active {
-    background: rgba(255, 255, 255, 0.2);
-  }
+ &.active {
+  color: #fff;
+  font-weight: 500;
+  box-shadow: inset 0 -0.8px 0 rgba(255, 255, 255, 0.4);
+}
 
   &:hover {
-    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+      font-weight: 500;
+   box-shadow: inset 0 -0.8px 0 rgba(255, 255, 255, 0.4);
   }
 `;
 
@@ -88,10 +93,12 @@ export const DropdownItem = styled(NavLink).attrs({
   color: #fff;
   position: relative;
   text-decoration: none;
+  color:rgb(226, 226, 226);
+  font-weight:200;
 
   &.active {
-    text-decoration: underline;
     font-weight: 500;
+    color:#fff;
   }
 
   &::before {

@@ -96,3 +96,6 @@ export const IconGroup = styled.div`
     color: #2563eb;
   }
 `;
+
+export const Button = styled.button`
+`;

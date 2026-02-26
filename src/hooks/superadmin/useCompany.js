@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCompanyById } from "../../services/companyService";
+import { getCompanyById } from "../../services/SuperAdminServices/companyService";
 
 export const useCompany = (id) => {
   return useQuery({

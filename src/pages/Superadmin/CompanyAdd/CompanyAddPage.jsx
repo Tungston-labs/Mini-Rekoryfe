@@ -58,6 +58,7 @@ function CompanyAddPage({
                 value={formData.company_name}
                 onChange={handleChange}
                 placeholder="Enter Company Name"
+                   autoComplete="off"
               />
               {errors.company_name && <ErrorText>{errors.company_name}</ErrorText>}
             </Field>
@@ -70,6 +71,7 @@ function CompanyAddPage({
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter Email Id"
+                   autoComplete="off"
               />
               {errors.email && <ErrorText>{errors.email}</ErrorText>}
             </Field>
@@ -81,6 +83,7 @@ function CompanyAddPage({
                 value={formData.contact_number}
                 onChange={handleChange}
                 placeholder="Enter Contact Number"
+                   autoComplete="off"
               />
               {errors.contact_number && <ErrorText>{errors.contact_number}</ErrorText>}
             </Field>
@@ -92,6 +95,7 @@ function CompanyAddPage({
                 value={formData.address}
                 onChange={handleChange}
                 placeholder="Enter Your Address"
+                   autoComplete="off"
               />
               {errors.address && <ErrorText>{errors.address}</ErrorText>}
             </Field>
@@ -103,6 +107,7 @@ function CompanyAddPage({
                 value={formData.location}
                 onChange={handleChange}
                 placeholder="Location"
+                   autoComplete="off"
               />
               {errors.location && <ErrorText>{errors.location}</ErrorText>}
             </Field>
@@ -149,6 +154,7 @@ function CompanyAddPage({
                 value={formData.latitude}
                 onChange={handleChange}
                 placeholder="Enter Company Latitude"
+                   autoComplete="off"
               />
               {errors.latitude && <ErrorText>{errors.latitude}</ErrorText>}
             </Field>
@@ -160,6 +166,7 @@ function CompanyAddPage({
                 value={formData.longitude}
                 onChange={handleChange}
                 placeholder="Enter Company Longitude"
+                   autoComplete="off"
               />
               {errors.longitude && <ErrorText>{errors.longitude}</ErrorText>}
             </Field>
@@ -172,6 +179,7 @@ function CompanyAddPage({
                 min={new Date().toISOString().split("T")[0]}
                 value={formData.registration_date}
                 onChange={handleChange}
+                   autoComplete="off"
               />
               {errors.registration_date && <ErrorText>{errors.registration_date}</ErrorText>}
             </Field>
@@ -183,9 +191,9 @@ function CompanyAddPage({
                 isMulti
                 name="allowed_roles"
                 options={roleOptions}
-                value={roleOptions.filter(option =>
-                  formData.allowed_roles.includes(option.value)
-                )}
+              value={roleOptions.filter(option =>
+           (formData?.allowed_roles || []).includes(option.value)
+          )}
                 onChange={handleRoleChange}
                 placeholder="Select Allowed Roles"
                 isSearchable
@@ -201,6 +209,7 @@ function CompanyAddPage({
                 value={formData.plan_amount_per_employee}
                 onChange={handleChange}
                 placeholder="Enter Plan Amount Per Employee"
+                   autoComplete="off"
               />
               {errors.plan_amount_per_employee && <ErrorText>{errors.plan_amount_per_employee}</ErrorText>}
 
@@ -213,6 +222,7 @@ function CompanyAddPage({
                 value={formData.initial_payment}
                 onChange={handleChange}
                 placeholder="Enter Initial Payment"
+                   autoComplete="off"
               />
             </Field>
           </RightColumn>

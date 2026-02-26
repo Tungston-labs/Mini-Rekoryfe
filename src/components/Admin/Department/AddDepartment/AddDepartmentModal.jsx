@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import {
   Overlay,
   ModalContainer,
@@ -9,52 +9,54 @@ import {
   FormGroup,
   Label,
   Input,
-  SelectWrapper,
-  Select,
   ButtonGroup,
   SaveButton,
-  CancelButton
+  CancelButton,
 } from "./AddDepartmentModal.styles";
+import { toast } from "react-hot-toast";
+const AddDepartmentModal = ({ isOpen, onClose, onSave }) => {
+  const [name, setName] = useState("");
 
-const AddDepartmentModal = ({ isOpen, onClose }) => {
+  useEffect(() => {
+    if (isOpen) {
+      setName("");
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
+
+const handleSave = () => {
+  if (!name.trim()) {
+    toast.error("Department name cannot be empty ❌");
+    return;
+  }
+
+  if (onSave) {
+    onSave({ name });
+  }
+};
 
   return (
     <Overlay onClick={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
         <Header>
           <Title>Add New Department</Title>
-          <Subtitle>
-            Create a new department to organize teams & roles
-          </Subtitle>
+          <Subtitle>Create a new department to organize teams & roles</Subtitle>
         </Header>
 
         <Divider />
 
         <FormGroup>
           <Label>Department Name</Label>
-          <Input type="text" placeholder="Development" />
+          <Input
+            type="text"
+            placeholder=" Eg.Development"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
         </FormGroup>
-
-        <FormGroup>
-          <Label>Department Code</Label>
-          <Input type="text" placeholder="dgsdgdghbgh" />
-        </FormGroup>
-
-        {/* <FormGroup>
-          <Label>Department Head</Label>
-          <SelectWrapper>
-            <Select>
-              <option>Select Department Name</option>
-              <option>Ajay Kumar</option>
-              <option>Mumthaz</option>
-              <option>Aiswarya</option>
-            </Select>
-          </SelectWrapper>
-        </FormGroup> */}
-
         <ButtonGroup>
-          <SaveButton>Save Department</SaveButton>
+          <SaveButton onClick={handleSave}>Save Department</SaveButton>
           <CancelButton onClick={onClose}>Cancel</CancelButton>
         </ButtonGroup>
       </ModalContainer>

@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   align-items: center;
   gap: 16px;
   margin-top: 20px;
-  padding: 15px;
+    padding: 20px ;
 `;
 
 export const Left = styled.div``;

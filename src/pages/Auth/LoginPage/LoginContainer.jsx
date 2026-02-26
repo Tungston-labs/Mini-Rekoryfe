@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
 import LoginPage from "./LoginPage";
 
 const LoginContainer = () => {
@@ -35,31 +35,29 @@ const LoginContainer = () => {
 
 const handleLogin = async () => {
   setApiError("");
-
   if (!validate()) return;
 
   try {
     setLoading(true);
+    const loggedInUser = await login(email, password); 
 
-   const user = await login(email, password); 
-    if (user.role === "superadmin") {
+    if (loggedInUser.role === "superadmin") {
       navigate("/superadmin/dashboard");
-    } else if (user.role === "admin") {
+    } else if (loggedInUser.role === "company") {
       navigate("/admin/dashboard");
     } else {
       setApiError("You are not authorized to access this system.");
     }
-
   } catch (error) {
-    console.log(error)
+    console.log(error);
     setApiError(
-      error.response?.data?.detail ||
-      "Invalid email or password"
+      error.response?.data?.detail || "Invalid email or password"
     );
   } finally {
     setLoading(false);
   }
 };
+
 
 
   return (

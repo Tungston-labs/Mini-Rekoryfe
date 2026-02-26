@@ -1,5 +1,8 @@
 import styled from "styled-components";
 
+  export const PageWrapper = styled.div `
+  
+  `;
 export const Overlay = styled.div`
   position: fixed;
   inset: 0;
@@ -61,7 +64,7 @@ export const Input = styled.input`
   background: #ffffff;
 
   &:focus {
-    border-color: #d71920;
+    border-color: #C61217;
   }
 `;
 
@@ -80,7 +83,7 @@ export const Select = styled.select`
   cursor: pointer;
 
   &:focus {
-    border-color: #d71920;
+    border-color: #C61217;
   }
 `;
 
@@ -91,7 +94,7 @@ export const ButtonGroup = styled.div`
 `;
 
 export const SaveButton = styled.button`
-  background: #d71920;
+  background: #C61217;
   color: white;
   border: none;
   padding: 12px 20px;
@@ -107,16 +110,12 @@ export const SaveButton = styled.button`
 
 export const CancelButton = styled.button`
   background: transparent;
-  color: #d71920;
-  border: 1px solid #d71920;
+  color: #C61217;
+  border: 1px solid #C61217;
   padding: 12px 20px;
   border-radius: 8px;
   font-weight: 500;
   cursor: pointer;
   transition: 0.3s;
 
-  &:hover {
-    background: #d71920;
-    color: white;
-  }
 `;

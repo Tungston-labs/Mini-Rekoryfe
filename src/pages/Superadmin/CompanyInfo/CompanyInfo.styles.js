@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const PageWrapper = styled.div`
   background: #fff;
-  padding: 24px;
+  padding: 30px;
 `;
 
 export const AvatarWrapper = styled.div`

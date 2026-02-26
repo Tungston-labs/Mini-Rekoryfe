@@ -1,4 +1,3 @@
-// pages/Login/LoginPage.jsx
 import React from "react";
 import {
   PageWrapper,
@@ -22,8 +21,8 @@ import {
   ErrorText
 } from "./LoginPage.styles";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import logo from "../../assets/images/logo.png";
-import illustration from "../../assets/images/map.png";
+import logo from "../../../assets/images/logo.png";
+import illustration from "../../../assets/images/map.png";
 const LoginPage = ({
   showPassword,
   onTogglePassword,
@@ -76,9 +75,9 @@ const LoginPage = ({
 
           {apiError && <ErrorText>{apiError}</ErrorText>}
 
-     <LoginButton onClick={onLogin} disabled={loading}>
-  {loading ? "Logging..." : "LOG IN"}
-</LoginButton>
+          <LoginButton onClick={onLogin} disabled={loading}>
+            {loading ? "Logging..." : "LOG IN"}
+          </LoginButton>
         </LoginBox>
       </Left>
 

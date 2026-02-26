@@ -11,17 +11,18 @@ import {
   Avatar,
   AvatarWrapper,
 } from "./CompanyInfo.styles";
-import PaymentHistory from "../../../components/SuperAdmin/plan/PaymentHistory";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCompany } from "../../../hooks/superadmin/useCompany";
+import PaymentHistoryContainer from "../../../components/SuperAdmin/plan/PaymentHistoryContainer";
+import PageSkeleton from "../../../components/Skeleton/PageSkeleton";
 
 function CompanyInfo() {
   const navigate = useNavigate();
   const { id } = useParams();
-
+const companyId = Number(id);
   const { data: company, isLoading, error } = useCompany(id);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <p><PageSkeleton/></p>;
   if (error) return <p>Error loading company</p>;
 
   const companyInfoFields = [
@@ -44,7 +45,6 @@ function CompanyInfo() {
         showBack={true}
         onBack={() => navigate("/superadmin/companies")}
       />
-
       <PageHeader
         title="Company Info"
         subtitle="View company details"
@@ -55,7 +55,6 @@ function CompanyInfo() {
           />
         }
       />
-
       <PageWrapper>
         <AvatarWrapper>
           <Avatar
@@ -63,7 +62,6 @@ function CompanyInfo() {
             alt="Company Logo"
           />
         </AvatarWrapper>
-
         <FormGrid>
           {companyInfoFields.map((item, index) => (
             <Field key={index}>
@@ -73,8 +71,7 @@ function CompanyInfo() {
           ))}
         </FormGrid>
       </PageWrapper>
-
-      <PaymentHistory />
+<PaymentHistoryContainer companyId={companyId} />
     </div>
   );
 }

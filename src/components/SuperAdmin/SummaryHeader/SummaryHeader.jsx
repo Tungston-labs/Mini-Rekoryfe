@@ -16,29 +16,19 @@ import { FiFilter, FiSearch } from "react-icons/fi";
 import { CiCalendar } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 
-const SummaryHeader = ({ cards = [], onSearch, onMonthChange }) => {
+const SummaryHeader = ({
+  cards = [],
+  onSearch,
+  onMonthChange,
+}) => {
+
   const navigate = useNavigate();
-  const monthInputRef = useRef(null);
-
-  const [selectedMonth, setSelectedMonth] = useState(() => {
-    const now = new Date();
-    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-  });
-
-  const handleMonthClick = () => {
-    monthInputRef.current?.showPicker();
+  const [selectedRange, setSelectedRange] = useState("7");
+  const handleRangeChange = (e) => {
+    const value = e.target.value;
+    setSelectedRange(value);
+    onMonthChange?.(value);
   };
-
-  const handleMonthChange = (e) => {
-    setSelectedMonth(e.target.value);
-    onMonthChange?.(e.target.value);
-  };
-
-  const formattedMonth = new Date(selectedMonth + "-01").toLocaleString(
-    "default",
-    { month: "long", year: "numeric" }
-  );
-
   return (
     <Wrapper>
       <Left>
@@ -46,12 +36,10 @@ const SummaryHeader = ({ cards = [], onSearch, onMonthChange }) => {
           {cards.map((item, index) => (
             <Card key={index}>
               <IconBox>{item.icon}</IconBox>
-
               <CardInfo>
                 <span>{item.title}</span>
                 <Count>{item.value}</Count>
               </CardInfo>
-
               {item.action && (
                 <ActionBtn
                   onClick={() => navigate("/superadmin/companies/add")}
@@ -63,21 +51,23 @@ const SummaryHeader = ({ cards = [], onSearch, onMonthChange }) => {
           ))}
         </Cards>
       </Left>
-
       <Right>
-        {/* MONTH PICKER CHIP */}
-        <Chip onClick={handleMonthClick} style={{ cursor: "pointer" }}>
+        <Chip>
           <CiCalendar />
-          <span>{formattedMonth}</span>
-
-          {/* hidden month input */}
-          <input
-            ref={monthInputRef}
-            type="month"
-            value={selectedMonth}
-            onChange={handleMonthChange}
-            style={{ display: "none" }}
-          />
+          <select
+            value={selectedRange}
+            onChange={handleRangeChange}
+            style={{
+              border: "none",
+              background: "transparent",
+              outline: "none",
+              cursor: "pointer",
+              fontSize: "14px",
+            }}
+          >    <option value="5">Last 5 Days</option>
+            <option value="10">Last 10 Days</option>
+            <option value="15">Last 15 Days</option>
+          </select>
         </Chip>
         <SearchBox>
           <FiSearch />
