@@ -6,6 +6,7 @@ export const fetchEmployees = async ({
   search = "",
   department = "",
   role = "",
+  is_active,
 }) => {
   const res = await api.get("/api/employee/", {
     params: {
@@ -14,6 +15,7 @@ export const fetchEmployees = async ({
       search,
       department,
       role,
+      is_active,
     },
   });
 

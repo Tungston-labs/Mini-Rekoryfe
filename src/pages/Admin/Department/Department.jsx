@@ -13,24 +13,40 @@ import {
   Arrow
 } from "./Departments.styles";
 import { CiEdit } from "react-icons/ci";
-const DepartmentUI = ({ departments = [], onCardClick, onAddClick }) => {
+import Pagination from "../../../components/Pagination/Pagination";
+
+const DepartmentUI = ({
+  departments = [],
+  employees = [], 
+  onCardClick,
+  currentPage,
+  totalPages,
+  onPageChange,
+}) => {
+
+ const getHeadNames = (headIds) => {
+  if (!headIds?.length) return "Not Assigned";
+  return headIds
+    .map(id => employees.find(emp => emp.id === id)?.name || `User ${id}`)
+    .join(", ");
+};
+
   return (
     <Container>
       {departments.map((dept, index) => (
         <Card key={index} onClick={() => onCardClick(dept)}>
           <LeftSection>
             <IconBox>{dept.name?.charAt(0).toUpperCase() || "?"}</IconBox>
-
             <DepartmentInfo>
               <DepartmentTitle>{dept.name}</DepartmentTitle>
-              <DepartmentHead>
-                Department Head : {dept.head || "Not Assigned"}
-              </DepartmentHead>
+           <DepartmentHead>
+  Department Head: {dept.head_names?.length ? dept.head_names.join(", ") : "Not Assigned"}
+</DepartmentHead>
             </DepartmentInfo>
           </LeftSection>
 
           <RightSection>
-            <EmployeeCount>{dept.employees || "0"}</EmployeeCount>
+            <EmployeeCount>{dept.employee_count || "0"}</EmployeeCount>
             <EmployeeText>Employees</EmployeeText>
             <Arrow>
               <CiEdit />
@@ -38,6 +54,12 @@ const DepartmentUI = ({ departments = [], onCardClick, onAddClick }) => {
           </RightSection>
         </Card>
       ))}
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={onPageChange}
+      />
     </Container>
   );
 };

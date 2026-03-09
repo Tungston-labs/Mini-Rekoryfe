@@ -8,6 +8,7 @@ import { useCompanies } from "../../../hooks/superadmin/useCompanies";
 import PageSkeleton from "../../../components/Skeleton/PageSkeleton";
 import { useDebounce } from "../../../hooks/superadmin/useDebounce";
 import { useDeleteCompany } from "../../../hooks/superadmin/useDeleteCompany";
+
 function CompanyList() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
@@ -38,7 +39,10 @@ function CompanyList() {
   const handleRowClick = (row) => navigate(`/superadmin/companies/info/${row.id}`);
 
   if (isLoading) return <div><PageSkeleton /></div>;
-  if (isError) return <div>Error fetching companies</div>;
+if (isError) {
+  console.log("Query Error:", data);
+  return <div>Error fetching companies</div>;
+}
 
   return (
     <div>

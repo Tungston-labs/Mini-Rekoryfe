@@ -36,8 +36,8 @@ export const IconBox = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 30px;
-  color: #C61217;
-  background: #fafafa;
+  color: #fafafa;
+  background: #C61217;
   font-weight: 600;
   text-transform: uppercase; 
 `;

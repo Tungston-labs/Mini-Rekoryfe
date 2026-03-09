@@ -1,97 +1,113 @@
-import React, { useState } from "react";
+import React from "react";
 import Topbar from "../../../components/SuperAdmin/Topbar/Topbar";
 import PageHeader from "../../../components/SuperAdmin/PageHeader/PageHeader";
 import ReusableTable from "../../../components/Table/ReusableTable";
 import TopActions from "../../../components/Admin/TopAction/TopAction";
 import { SlLocationPin } from "react-icons/sl";
 import { useNavigate } from "react-router-dom";
-
+import useEmployeeAttendance from "./EmployeeAttendanceContainer";
+import PageSkeleton from "../../../components/Skeleton/PageSkeleton";
 
 const columns = [
   {
     label: "Employee",
     key: "employee",
     render: (row) => (
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <img
-          src={row.avatar || "https://via.placeholder.com/40"}
+          src={row.avatar}
           alt={row.employee_name}
           style={{ width: 40, height: 40, borderRadius: "50%" }}
         />
         <div>
-          <div style={{ fontSize: "14px", color: "#000000", fontWeight: 400 }}>{row.employee_name}</div>
-          <div style={{ fontSize: "12px", color: "#3d3d3d" }}>{row.id}</div>
+          <div style={{ fontWeight: 500 }}>
+            {row.employee_name}
+          </div>
+          <div style={{ fontSize: 12, color: "#666" }}>
+            ID: {row.employee_id}
+          </div>
         </div>
       </div>
-    )
+    ),
   },
-  { 
-    key: "check_in", 
-    label: "Check IN",
-    render: (row) => (
-      <span style={{ color: row.check_in === "00.00AM" ? "#C61217" : "black" }}>
-        {row.check_in}
-      </span>
-    )
-  },
-  { 
-    key: "check_out", 
-    label: "Check Out",
-    render: (row) => (
-      <span style={{ color: row.check_out === "00.00AM" ? "#C61217" : "black" }}>
-        {row.check_out}
-      </span>
-    )
-  },
+  { key: "check_in", label: "Check IN" },
+  { key: "check_out", label: "Check Out" },
   { key: "hours", label: "Total Hours" },
-  { key: "time", label: "Over Time" },
-  { 
-    key: "location", 
+  {
+    key: "location",
     label: "Location",
     render: (row) => (
-      <div style={{ display: "flex", alignItems: "center", gap: "5px", color: row.location === "--------" ? "#C61217" : "black" }}>
-        <SlLocationPin  style={{color:"#C61217"}}/> 
-        <span>{row.location}</span>
+      <div style={{ display: "flex", gap: 5 }}>
+        <SlLocationPin style={{ color: "#C61217" }} />
+        {row.location}
       </div>
-    )
+    ),
   },
 ];
 
-
-  const dummyData = [
-    {avatar: "https://randomuser.me/api/portraits/men/1.jpg", id: "TUNDEVTIV", employee_name: "Acme Corp", check_in: "09.00AM", check_out: "09.00AM",hours:"8.00hr",time:"0.00hr",location: "Aluva" },
-    {avatar: "https://randomuser.me/api/portraits/men/1.jpg",id: "TUNDEVTIV", employee_name: "Globex Inc", check_in: "00.00AM", check_out: "00.00AM",hours:"8.00hr",time:"0.00hr",location: "--------" },
-    {avatar: "https://randomuser.me/api/portraits/men/1.jpg", id: "TUNDEVTIV", employee_name: "Initech", check_in: "09.00:AM", check_out: "09.00AM",hours:"8.00hr",time:"0.00hr",location: "Kochi" },
-  ];
-function EmployeeAttendance() {
+function EmployeeAttendancePage() {
   const navigate = useNavigate();
-  const [page, setPage] = useState(1);
-  const pageSize = 20;
-  const totalPages = Math.ceil(dummyData.length / pageSize);
- const handleRowClick = (row) =>     navigate(`/admin/employee/location/${row.id}`);
-  const paginatedData = dummyData.slice((page - 1) * pageSize, page * pageSize);
 
+  const {
+    employees,
+    totalPages,
+    isLoading,
+    isFetching,
+    page,
+    setPage,
+    search,
+    setSearch,
+    department,
+    setDepartment,
+    date,
+    setDate,
+  } = useEmployeeAttendance();
+
+  const handleRowClick = (row) =>
+    navigate(`/admin/employee/location/${row.employee_id}`);
+
+  if (isLoading) {
+    return (
+      <div>
+        <PageSkeleton />
+      </div>
+    );
+  }
   return (
     <div>
-      <Topbar />                        
+      <Topbar />
+
       <PageHeader
-        title="Employees Attendance "
+        title="Employees Attendance"
         subtitle="Track, manage, and monitor employee attendance in real time with complete accuracy."
       />
-    <TopActions/>
+
+      <TopActions
+        selectedDate={date}
+        showFilter={false}
+        onDateChange={setDate}
+        selectedDepartment={department}
+        onDepartmentChange={setDepartment}
+        onSearchChange={(e) => setSearch(e.target.value)}
+      />
+
+  {isLoading ? (
+        <div style={{ padding: "20px" }}><PageSkeleton /></div>
+      ) : (
       <ReusableTable
         columns={columns}
-        data={paginatedData}  
-                     onRowClick={handleRowClick}
-
+        data={employees}
+        loading={isFetching}
+        onRowClick={handleRowClick}
         pagination={{
           currentPage: page,
           totalPages,
           onPageChange: setPage,
         }}
       />
+            )}
     </div>
   );
 }
 
-export default EmployeeAttendance;
+export default EmployeeAttendancePage;

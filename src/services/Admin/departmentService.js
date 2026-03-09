@@ -2,9 +2,11 @@ import api from "../../api/axios";
 
 const BASE_URL = "/api/departments/";
 
-export const fetchDepartments = async () => {
-  const res = await api.get("/api/departments/");
-  return Array.isArray(res.data.results) ? res.data.results : [];
+export const fetchDepartments = async ({ page = 1, page_size = 10 } = {}) => {
+  const res = await api.get("/api/departments/", {
+    params: { page, page_size },
+  });
+  return res.data;
 };
 
 export const createDepartment = async (data) => {

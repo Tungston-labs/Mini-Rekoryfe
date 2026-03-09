@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const HeaderContainer = styled.div`
   background: #f3f4f6;
-  padding: 25px 40px;
+  padding: 20px 40px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -38,4 +38,30 @@ export const BottomText = styled.p`
   margin-top: 8px;
   font-size: 14px;
   color: #6b7280;
+`;
+export const InfoRow = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+`;
+
+export const Label = styled.span`
+  min-width: 110px;
+  color:rgb(15, 15, 15);
+  font-weight: 100;
+   font-size: 16px;
+`;
+
+export const Value = styled.span`
+   color: #111827;
+   font-size: 14px;
+`;
+
+export const NameValue = styled.span`
+font-weight:600
+`;
+export const IdValue = styled.span`
+  color:rgb(15, 15, 15);
+ font-weight: 100;
+ font-size: 14px;
 `;

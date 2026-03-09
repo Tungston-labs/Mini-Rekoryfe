@@ -18,7 +18,8 @@ import {
   InputWrapper,
   Heading,
   Description,
-  ErrorText
+  ErrorText,
+  ForgotPassword
 } from "./LoginPage.styles";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import logo from "../../../assets/images/logo.png";
@@ -33,7 +34,8 @@ const LoginPage = ({
   onChangePassword,
   errors,
   apiError,
-  loading
+  loading,
+  onForgotPassword,
 }) => {
   return (
     <PageWrapper>
@@ -71,6 +73,9 @@ const LoginPage = ({
             </InputWrapper>
 
             {errors.password && <ErrorText>{errors.password}</ErrorText>}
+            <ForgotPassword onClick={onForgotPassword}>
+              Forgot Password?
+            </ForgotPassword>
           </Field>
 
           {apiError && <ErrorText>{apiError}</ErrorText>}

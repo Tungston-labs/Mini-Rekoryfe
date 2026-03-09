@@ -43,9 +43,8 @@ const SmartRouting = () => {
           {["All", "Active", "Not Active"].map((filter) => (
             <FilterButton
               key={filter}
-              active={activeFilter === filter}
-              onClick={() => setActiveFilter(filter)}
-            >
+              $active={activeFilter === filter}
+              onClick={() => setActiveFilter(filter)}   >
               {filter}
             </FilterButton>
           ))}
@@ -55,7 +54,7 @@ const SmartRouting = () => {
           {employeesData.map((emp) => (
             <EmployeeCard
               key={emp.id}
-              active={selected === emp.id}
+              $active={selected === emp.id}
               onClick={() => setSelected(emp.id)}
             >
               <Avatar src="https://i.pravatar.cc/40" />

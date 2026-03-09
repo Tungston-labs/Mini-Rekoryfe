@@ -22,7 +22,7 @@ const Topbar = ({ title, showBack = false, onBack }) => {
   const navigate = useNavigate();
 
   const handleLogoutConfirm = () => {
-    logout(); // clear auth tokens / context
+    logout(); 
     setIsModalOpen(false);
     navigate("/login");
   };

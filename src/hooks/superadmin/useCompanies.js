@@ -3,8 +3,8 @@ import { getCompanies } from "../../services/SuperAdminServices/companyService";
 
 export const useCompanies = (search, page, pageSize) => {
   return useQuery({
-    queryKey: ["companies", { search, page, pageSize }],
-    queryFn: getCompanies,
-    keepPreviousData: true, 
+    queryKey: ["companies", search, page, pageSize],
+    queryFn: () => getCompanies({ search, page, pageSize }),
+    placeholderData: (prev) => prev,
   });
 };

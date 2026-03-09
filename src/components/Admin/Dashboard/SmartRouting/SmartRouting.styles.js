@@ -62,7 +62,7 @@ export const EmployeeCard = styled.div`
   border-radius: 8px;
   background: ${(props) => (props.$active ? "#f1f5f9" : "#fafafa")};
   border-left: ${(props) =>
-    props.active ? "4px solid #C61217" : "4px solid transparent"};
+    props.$active ? "4px solid #C61217" : "4px solid transparent"};
   cursor: pointer;
 `;
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://192.168.0.163:8000"; 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const refreshAccessToken = async () => {
   const refreshToken = localStorage.getItem("refreshToken");
@@ -13,14 +13,23 @@ const refreshAccessToken = async () => {
       { refresh: refreshToken }
     );
 
-    const newAccess = response.data.access;
+    const { access, refresh } = response.data;
 
-    localStorage.setItem("accessToken", newAccess);
+    localStorage.setItem("accessToken", access);
+    if (refresh) {
+      localStorage.setItem("refreshToken", refresh);
+    }
 
-    return newAccess;
+    return access;
   } catch (error) {
-    localStorage.clear();
+    console.log("Refresh failed:", error.response?.data);
+
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
+
     window.location.href = "/login";
+
     return null;
   }
 };

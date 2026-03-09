@@ -1,8 +1,7 @@
 import axios from "axios";
 import refreshAccessToken from "./refreshToken";
 
-
-const BASE_URL = "http://192.168.0.163:8000";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -22,8 +21,11 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url.includes("/api/auth/refresh/")
+    ) {
       originalRequest._retry = true;
 
       const newAccess = await refreshAccessToken();

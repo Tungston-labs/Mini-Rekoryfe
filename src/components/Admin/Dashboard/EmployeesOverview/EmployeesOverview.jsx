@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import useDashboardSummary from "../../../../hooks/Admin/dashboard/useDashboardSummary";
 import {
   Wrapper,
   Header,
@@ -19,23 +20,15 @@ import { FiUsers, FiPlus } from "react-icons/fi";
 
 const EmployeesOverview = () => {
   const navigate = useNavigate();
-
-  const data = [
-    { title: "Total Employees", value: "50", showAdd: true },
-    { title: "Total Departments", value: "05", showAdd: true },
-    { title: "Present Today", value: "46", showAdd: false },
-    { title: "Employees On Leave", value: "04", showAdd: false },
-  ];
+  const { summary, loading, error } = useDashboardSummary();
 
   const now = new Date();
-
   const formattedDate = now.toLocaleDateString("en-US", {
     weekday: "short",
     month: "short",
     year: "numeric",
   });
 
-  // Click handler for Add buttons
   const handleAddClick = (title) => {
     if (title === "Total Employees") {
       navigate("/admin/employee/add");
@@ -43,6 +36,32 @@ const EmployeesOverview = () => {
       navigate("/admin/department");
     }
   };
+
+  const data = [
+    {
+      title: "Total Employees",
+      value: summary?.total_employees || 0,
+      showAdd: true,
+    },
+    {
+      title: "Total Departments",
+      value: summary?.total_departments || 0,
+      showAdd: true,
+    },
+    {
+      title: "Present Today",
+      value: summary?.present_today || 0,
+      showAdd: false,
+    },
+    {
+      title: "Absent Today",
+      value: summary?.absent_today || 0,
+      showAdd: false,
+    },
+  ];
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <Wrapper>

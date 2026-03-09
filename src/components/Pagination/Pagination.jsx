@@ -2,28 +2,31 @@ import React from "react";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   if (!totalPages || totalPages <= 1) return null;
+
 const getPages = () => {
   const pages = [];
   const delta = 1;
 
-  const left = Math.max(2, currentPage - delta);
-  const right = Math.min(totalPages - 1, currentPage + delta);
-
-  pages.push(1);
-
-  if (left > 2) {
-    pages.push("...");
-  }
+  const left = Math.max(1, currentPage - delta);
+  const right = Math.min(totalPages, currentPage + delta);
 
   for (let i = left; i <= right; i++) {
     pages.push(i);
   }
 
-  if (right < totalPages - 1) {
-    pages.push("...");
+  // Always ensure first page exists
+  if (!pages.includes(1)) {
+    pages.unshift(1);
+    if (pages[1] !== 2) {
+      pages.splice(1, 0, "...");
+    }
   }
 
-  if (totalPages > 1) {
+  // Always ensure last page exists
+  if (!pages.includes(totalPages)) {
+    if (pages[pages.length - 1] !== totalPages - 1) {
+      pages.push("...");
+    }
     pages.push(totalPages);
   }
 
@@ -46,7 +49,7 @@ const getPages = () => {
     </span>
   ) : (
     <button
-      key={item}
+     key={`${item}-${index}`}
       onClick={() => onPageChange(item)}
       style={{
         ...styles.pageButton,

@@ -1,58 +1,49 @@
 import { createContext, useEffect, useState } from "react";
-import axios from "axios";
-
-const BASE_URL = "http://192.168.0.163:8000";
+import api from "../api/axios";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
- const login = async (email, password) => {
-  const response = await axios.post(
-    `${BASE_URL}/api/auth/login/`,
-    { email, password }
-  );
+  // 🔹 Login
+  const login = async (email, password) => {
+    const response = await api.post("/api/auth/login/", { email, password });
+    const { access, refresh, user } = response.data;
 
-  const { access, refresh, user } = response.data;
+    localStorage.setItem("accessToken", access);
+    localStorage.setItem("refreshToken", refresh);
+    localStorage.setItem("user", JSON.stringify(user));
 
-  localStorage.setItem("accessToken", access);
-  localStorage.setItem("refreshToken", refresh);
-  localStorage.setItem("user", JSON.stringify(user));
-
-  setUser(user);
-
-  return user; 
-};
-
-
-  const logout = () => {
-    localStorage.clear();
-    setUser(null);
+    setUser(user);
+    return user;
   };
 
-  useEffect(() => {
-    const init = () => {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-      setLoading(false);
-    };
+  // 🔹 Logout
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
 
-    init();
+    setUser(null);
+    window.location.href = "/login";
+  };
+
+  // 🔹 Restore user on app start
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (storedUser && accessToken) {
+      setUser(JSON.parse(storedUser));
+    }
+    setLoading(false);
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ user, login, logout, loading }}
-    >
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
-

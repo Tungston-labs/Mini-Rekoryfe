@@ -194,9 +194,7 @@ function EmployeeForm({
                 value={formData.role}
                 onChange={handleChange}
               >
-                <option value="">Select Role</option>
-                <option value="admin">Admin</option>
-                <option value="manager">Manager</option>
+                <option value="">Select Role</option>   
                 <option value="hr">HR</option>
                 <option value="employee">Employee</option>
               </Select>

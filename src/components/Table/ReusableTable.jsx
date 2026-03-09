@@ -33,49 +33,65 @@ const ReusableTable = ({
           </tr>
         </TableHead>
 
-        <TableBody>
-          {data.map((row, rowIndex) => (
-            <TableRow
-              key={rowIndex}
-              onClick={() => onRowClick?.(row)}
-              style={{ cursor: onRowClick ? "pointer" : "default" }}
+      <TableBody>
+  {data.length === 0 ? (
+    <TableRow>
+      <TableCell
+        colSpan={
+          columns.length +
+          (onEdit ? 1 : 0) +
+          (onDelete ? 1 : 0)
+        }
+        style={{ textAlign: "center", padding: "20px",}}
+      >
+        No Employee Found
+      </TableCell>
+    </TableRow>
+  ) : (
+    data.map((row, rowIndex) => (
+      <TableRow
+        key={rowIndex}
+        onClick={() => onRowClick?.(row)}
+        style={{ cursor: onRowClick ? "pointer" : "default" }}
+      >
+        {columns.map((col, colIndex) => (
+          <TableCell key={colIndex}>
+            {col.render ? col.render(row) : row[col.key]}
+          </TableCell>
+        ))}
+
+        {onEdit && (
+          <TableCell>
+            <IconButton
+              color="#636363"
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit(row);
+              }}
             >
-              {columns.map((col, colIndex) => (
-                <TableCell key={colIndex}>
-                  {col.render ? col.render(row) : row[col.key]}
-                </TableCell>
-              ))}
+              <LuPencilLine />
+            </IconButton>
+          </TableCell>
+        )}
 
-              {onEdit && (
-                <TableCell>
-                  <IconButton
-                    color="#636363"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onEdit(row);
-                    }}
-                  >
-                    <LuPencilLine />
-                  </IconButton>
-                </TableCell>
-              )}
+        {onDelete && (
+          <TableCell>
+            <IconButton
+              color="#C61217"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(row);
+              }}
+            >
+              <RiDeleteBinLine />
+            </IconButton>
+          </TableCell>
+        )}
+      </TableRow>
+    ))
+  )}
+</TableBody>
 
-              {onDelete && (
-                <TableCell>
-                  <IconButton
-                    color="#C61217"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onDelete(row);
-                    }}
-                  >
-                    <RiDeleteBinLine />
-                  </IconButton>
-                </TableCell>
-              )}
-            </TableRow>
-          ))}
-        </TableBody>
       </StyledTable>
       {pagination && (
         <Pagination

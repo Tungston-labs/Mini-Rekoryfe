@@ -2,11 +2,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchDepartments, createDepartment } from "../../../services/Admin/departmentService";
 import { toast } from "react-hot-toast";
 
-export const useDepartments = () => {
+export const useDepartments = (page = 1, page_size = 10) => {
   return useQuery({
-    queryKey: ["departments"],
-    queryFn: fetchDepartments,
-    staleTime: 5 * 60 * 1000, 
+    queryKey: ["departments", page, page_size],
+    queryFn: () => fetchDepartments({ page, page_size }),
+    keepPreviousData: true,
   });
 };
 

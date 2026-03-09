@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import SuperAdminDashboardView from "./SuperAdminDashboard";
 import { useSuperAdminDashboard } from "../../../hooks/superadmin/useSuperAdminDashboard";
@@ -34,10 +34,26 @@ function SuperAdminDashboardContainer() {
     const handlePayRequest = (invoiceId, companyId) => {
         setConfirmData({ invoiceId, companyId });
     };
-   const handleConfirmPay = () => {
-  payInvoice(confirmData.invoiceId);
-  setConfirmData(null);
-};
+    const handleConfirmPay = () => {
+        payInvoice(confirmData.invoiceId);
+        setConfirmData(null);
+    };
+    const debounce = (func, delay) => {
+        let timeout;
+        return (...args) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func(...args), delay);
+        };
+    };
+
+    const handleSearch = useMemo(
+        () =>
+            debounce((value) => {
+                setSearch(value);
+                setPage(1);
+            }, 500),
+        []
+    );
     const cards = [
         {
             title: "Total Companies",
@@ -66,10 +82,7 @@ function SuperAdminDashboardContainer() {
                 currentPage={page}
                 totalPages={totalPages}
                 onPageChange={setPage}
-                onSearch={(value) => {
-                    setSearch(value);
-                    setPage(1);
-                }}
+              onSearch={handleSearch}
                 onMonthChange={(value) => {
                     setDays(value);
                     setPage(1);

@@ -28,7 +28,7 @@ export const useSuperAdminDashboard = ({ page = 1, pageSize = 10, days = 7,
     queryKey: ["dueCompanies", page, pageSize ,days, search],
     queryFn: () => fetchDueCompanies({ page, pageSize ,days,
         search,}),
-    keepPreviousData: true,
+  placeholderData: (prev) => prev,
   });
 
 const payMutation = useMutation({
@@ -36,9 +36,10 @@ const payMutation = useMutation({
   onSuccess: (data) => {
     toast.success(data?.detail || "Invoice Paid Successfully ✅");
 
-    queryClient.invalidateQueries({
-      queryKey: ["dueCompanies"],
-    });
+queryClient.invalidateQueries({
+  queryKey: ["dueCompanies"],
+  exact: false,
+});
 
     queryClient.invalidateQueries({
       queryKey: ["expiredCompanies"],
@@ -58,9 +59,10 @@ const toggleMutation = useMutation({
   onSuccess: (data) => {
     toast.success(data?.detail || "Company status updated ✅");
 
-    queryClient.invalidateQueries({
-      queryKey: ["dueCompanies"],
-    });
+ queryClient.invalidateQueries({
+  queryKey: ["dueCompanies"],
+  exact: false,
+});
 
     queryClient.invalidateQueries({
       queryKey: ["expiredCompanies"],

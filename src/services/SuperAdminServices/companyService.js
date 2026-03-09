@@ -21,12 +21,10 @@ export const createCompany = async (data) => {
   return response.data;
 };
 
-export const getCompanies = async ({ queryKey }) => {
-  const [_key, { search, page, pageSize }] = queryKey;
-
+export const getCompanies = async ({ search, page, pageSize }) => {
   const response = await api.get("/api/superadmin/companies/", {
     params: {
-      search,
+      ...(search && { search }),
       page,
       page_size: pageSize,
     },

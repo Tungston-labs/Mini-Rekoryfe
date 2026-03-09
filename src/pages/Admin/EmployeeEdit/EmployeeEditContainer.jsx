@@ -12,8 +12,9 @@ import { useToggleEmployeeStatus } from "../../../hooks/Admin/employee/useToggle
 function EmployeeEditContainer() {
     const navigate = useNavigate();
     const { id } = useParams();
-    const { data: employee, isLoading } = useEmployee(id);
-    const { data: departments = [] } = useDepartments();
+    const { data: employee, } = useEmployee(id);
+const { data, isLoading } = useDepartments();
+const departments = data?.results || [];
     const updateMutation = useUpdateEmployee();
     const toggleStatusMutation = useToggleEmployeeStatus();
     const [formData, setFormData] = useState({

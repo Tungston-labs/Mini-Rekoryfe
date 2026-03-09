@@ -9,7 +9,6 @@ import CompanyEditContainer from "../pages/Superadmin/CompanyEdit/CompanyEditCon
 import AdminLayout from "../layout/AdminLayout/AdminLayout";
 import EmployeeFormContainer from "../pages/Admin/EmployeeAdd/EmployeeFormContainer.jsx";
 import EmployeeAttendance from "../pages/Admin/Attendance/EmployeeAttendance.jsx";
-import LocationDetails from "../pages/Admin/Location/LocationDetails.jsx";
 import ForgotPasswordForm from "../pages/Auth/ForgotPasswordForm.jsx";
 import ResetPasswordForm from "../pages/Auth/ResetPasswordForm.jsx"
 import OtpForm from "../pages/Auth/ OtpForm.jsx";
@@ -18,6 +17,7 @@ import Dashboard from "../pages/Admin/Dashboard/Dashboard.jsx";
 import EmployeeList from "../pages/Admin/EmployeeList/EmployeeList.jsx";
 import DepartmentContainer from "../pages/Admin/Department/DepartmentContainer.jsx";
 import EmployeeEditContainer from "../pages/Admin/EmployeeEdit/EmployeeEditContainer.jsx";
+import LocationDetailsContainer from "../pages/Admin/Location/LocationDetailsContainer.jsx";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -56,7 +56,7 @@ const AppRoutes = () => {
         <Route path="/admin/employee/add" element={<EmployeeFormContainer />} />
         <Route path="/admin/employee/edit/:id" element={<EmployeeEditContainer />} />
         <Route path="/admin/employees/attendance" element={<EmployeeAttendance />} />
-        <Route path="/admin/employee/location/:id" element={<LocationDetails />} />
+        <Route path="/admin/employee/location/:id" element={<LocationDetailsContainer />} />
       </Route>
     </Routes>
   );

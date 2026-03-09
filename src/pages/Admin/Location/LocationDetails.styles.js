@@ -18,13 +18,14 @@ export const DashboardContainer = styled.div`
 
 export const RouteSidebar = styled.div`
   width: 380px;
-  height: 600px;
+  height: 720px;
   background: white;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0px 2.7px 25px 0px #4545501A;
   overflow-y: auto;
   scrollbar-width: thin;
+
    @media (max-width: 1024px) {
     width: 320px;
   }
@@ -65,25 +66,34 @@ export const MarkerWrapper = styled.div`
     content: '';
     position: absolute;
     top: 45px;
-    width: 2px;
+    width: 1px;
     height: calc(100% - 10px);
-    border-left: 2px dotted #ccc;
+    border-left: 2px dotted #00A60B;
     display: ${props => props.$isLast ? 'none' : 'block'};
   }
 `;
 
 export const MarkerCircle = styled.div`
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  border: 2px solid ${props => props.$active ? '#28a745' : props.$error ? '#dc3545' : '#ccc'};
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
-  color: ${props => props.$active ? '#28a745' : '#555'};
-  font-weight: bold;
-  font-size: 0.8rem;
+  font-weight: 600;
+
+  background-color: #fff;
+
+  border: 1px solid
+    ${({ $type }) =>
+      $type === "punch_out"
+        ? "#BA0D11"
+        : "#00A60B"};
+
+  color: ${({ $type }) =>
+    $type === "punch_out"
+      ? "#BA0D11"
+      : "#00A60B"};
 `;
 
 export const LocationCard = styled.div`
@@ -91,7 +101,7 @@ export const LocationCard = styled.div`
   padding: 15px;
   border: 1px solid ${props => props.$error ? '#dc3545' : '#e0e0e0'};
   border-radius: 8px;
-  background: ${props => props.$error ? '#fff5f5' : 'white'};
+  background: ${props => props.$error ? 'white' : 'white'};
 `;
 
 export const TimeStamp = styled.span`
@@ -145,4 +155,43 @@ export const RouteHeader = styled.div`
   padding: 10px;
   border-radius: 6px;
   background-color: #EDEDED80;
+`;
+
+export const CardRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const LeftSection = styled.div``;
+
+export const TitleRow = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+`;
+
+export const LocationText = styled.small`
+  margin-left: 24px;
+  color: #666;
+  font-size: 12px;
+`;
+
+export const MapIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
+  svg {
+    color: ${({ $error }) =>
+      $error ? "#BA0D11" : "#00A60B"};
+  }
+`;
+
+export const MapContent = styled.div`
+  padding: 20px;
+`;
+
+export const StepTitle = styled.span`
+  font-size: 14px;
+  font-weight: 600;
+  color: ${({ $error }) => ($error ? "#BA0D11" : "#1a1a1a")};
 `;

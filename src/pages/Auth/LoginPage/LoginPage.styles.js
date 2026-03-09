@@ -188,3 +188,15 @@ export const BackLink = styled(Link)`
     text-decoration: underline;
   }
 `;
+export const ForgotPassword = styled.div`
+  text-align: right;
+  margin-top: 6px;
+  font-size: 13px;
+  color: #C61217;
+  cursor: pointer;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
