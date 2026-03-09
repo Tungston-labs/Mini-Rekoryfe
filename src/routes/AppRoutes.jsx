@@ -24,7 +24,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/forget" element={<ForgotPasswordForm />} />
       <Route path="/reset-password" element={<ResetPasswordForm />} />
-      <Route path="/otp" element={< OtpForm />} />
+      <Route path="/verify-otp" element={<OtpForm/>} />
       <Route
         element={
           <ProtectedRoute role="superadmin">

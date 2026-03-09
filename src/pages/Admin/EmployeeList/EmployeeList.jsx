@@ -58,7 +58,7 @@ const columns = [
   { key: "phone", label: "Phone Number" },
 {
   key: "status",
-  label: "Status",
+  label: "Block ",
   render: (row) => (
     <span
       style={{

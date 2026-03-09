@@ -82,7 +82,7 @@ function SuperAdminDashboardContainer() {
                 currentPage={page}
                 totalPages={totalPages}
                 onPageChange={setPage}
-              onSearch={handleSearch}
+                onSearch={handleSearch}
                 onMonthChange={(value) => {
                     setDays(value);
                     setPage(1);

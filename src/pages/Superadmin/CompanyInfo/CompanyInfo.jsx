@@ -15,13 +15,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useCompany } from "../../../hooks/superadmin/useCompany";
 import PaymentHistoryContainer from "../../../components/SuperAdmin/plan/PaymentHistoryContainer";
 import PageSkeleton from "../../../components/Skeleton/PageSkeleton";
-
+import { useSuperAdminDashboard } from "../../../hooks/superadmin/useSuperAdminDashboard";
 function CompanyInfo() {
   const navigate = useNavigate();
   const { id } = useParams();
 const companyId = Number(id);
   const { data: company, isLoading, error } = useCompany(id);
-
+const { toggleCompanyStatus, isToggling } = useSuperAdminDashboard({});
   if (isLoading) return <p><PageSkeleton/></p>;
   if (error) return <p>Error loading company</p>;
 
@@ -39,6 +39,14 @@ const companyId = Number(id);
     { label: "Initial Payment", value: company?.initial_payment },
   ];
 
+  const handleToggle = (value) => {
+  const action = value ? "activate" : "deactivate";
+
+  toggleCompanyStatus({
+    companyId,
+    action,
+  });
+};
   return (
     <div>
       <Topbar
@@ -49,10 +57,11 @@ const companyId = Number(id);
         title="Company Info"
         subtitle="View company details"
         rightContent={
-          <ToggleSwitch
-            value={company?.is_active}
-            onChange={() => { }}
-          />
+        <ToggleSwitch
+  value={company?.is_active}
+  onChange={handleToggle}
+  disabled={isToggling}
+/>
         }
       />
       <PageWrapper>

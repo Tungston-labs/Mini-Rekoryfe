@@ -58,7 +58,7 @@ const toggleMutation = useMutation({
   mutationFn: toggleCompanyStatusAPI,
   onSuccess: (data) => {
     toast.success(data?.detail || "Company status updated ✅");
-
+ queryClient.invalidateQueries({ queryKey: ["company"] });
  queryClient.invalidateQueries({
   queryKey: ["dueCompanies"],
   exact: false,
