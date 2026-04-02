@@ -18,7 +18,7 @@ import {
   Description,
   BackLink
 } from "../Auth/LoginPage/LoginPage.styles";
-
+import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useVerifyOtp } from "../../hooks/auth/useVerifyOtp";
 
@@ -29,46 +29,40 @@ const OtpForm = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-
   const email = location.state?.email;
-
   const [otp, setOtp] = useState("");
-
   const { mutate: verifyOtpMutation, isPending } = useVerifyOtp();
 
-  const handleVerifyOtp = () => {
+ const handleVerifyOtp = () => {
+  if (!otp) {
+    toast.error("Please enter OTP");
+    return;
+  }
 
-    if (!otp) {
-      alert("Please enter OTP");
-      return;
-    }
-
-    verifyOtpMutation(
-      {
-        email: email,
-        otp: otp
-      },
-      {
-       onSuccess: (data) => {
-  alert("OTP Verified Successfully");
-
-  const resetToken = data.reset_token;
-
-  navigate("/reset-password", {
-    state: {
+  verifyOtpMutation(
+    {
       email: email,
-      resetToken: resetToken
-    }
-  });
-},
+      otp: otp
+    },
+    {
+      onSuccess: (data) => {
+        toast.success("OTP Verified Successfully");
 
-        onError: (error) => {
-          alert(error.response?.data?.message || "Invalid OTP");
-        }
+        const resetToken = data.reset_token;
+
+        navigate("/reset-password", {
+          state: {
+            email: email,
+            resetToken: resetToken
+          }
+        });
+      },
+      onError: (error) => {
+        toast.error(error.response?.data?.message || "Invalid OTP");
       }
-    );
-  };
-
+    }
+  );
+};
   return (
     <PageWrapper>
       <Left>

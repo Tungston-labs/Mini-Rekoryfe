@@ -8,10 +8,27 @@ export const useUpdateDepartment = () => {
   return useMutation({
     mutationFn: ({ id, data }) => updateDepartment({ id, data }),
 
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["departments"] });
-      toast.success("Department updated successfully ✅");
-    },
+  onSuccess: (updatedDept) => {
+  queryClient.setQueryData(["departments"], (oldData) => {
+    if (!oldData) return oldData;
+
+    return {
+      ...oldData,
+      results: oldData.results.map((dept) =>
+        dept.id === updatedDept.id
+          ? {
+              ...dept,
+              ...updatedDept, // includes head_ids
+            }
+          : dept
+      ),
+    };
+  });
+
+  queryClient.invalidateQueries({ queryKey: ["departments"] });
+
+  toast.success("Department updated successfully ✅");
+},
 
     onError: (error) => {
       toast.error(

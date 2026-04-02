@@ -26,7 +26,9 @@ function EmployeeForm({
   handleCancel = () => { },
   handleImageUpload = () => { },
   errors = {},
-  departments = []
+  departments = [],
+    setPage,
+  hasNext
 
 }) {
   return (
@@ -144,19 +146,28 @@ function EmployeeForm({
 
             <Field>
               <Label>Department</Label>
-              <Select
-                name="department"
-                value={formData.department}
-                onChange={handleChange}
-              >
-                <option value="">Select Department</option>
+            <Select
+  name="department"
+  value={formData.department}
+  onChange={handleChange}
+  onScroll={(e) => {
+    const target = e.target;
 
-                {departments.map((dept) => (
-                  <option key={dept.id} value={dept.id}>
-                    {dept.name}
-                  </option>
-                ))}
-              </Select>
+    const bottom =
+      target.scrollHeight - target.scrollTop <= target.clientHeight + 5;
+if (bottom && hasNext && setPage) {
+  setPage((prev) => prev + 1);
+}
+  }}
+>
+  <option value="">Select Department</option>
+
+  {departments.map((dept) => (
+    <option key={dept.id} value={dept.id}>
+      {dept.name}
+    </option>
+  ))}
+</Select>
               {errors.department && <ErrorText>{errors.department}</ErrorText>}
             </Field>
 

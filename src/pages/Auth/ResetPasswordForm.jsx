@@ -20,7 +20,7 @@ import {
   Description,
   BackLink
 } from "../Auth/LoginPage/LoginPage.styles";
-
+import toast from "react-hot-toast";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useResetPassword } from "../../hooks/auth/useResetPassword";
@@ -34,42 +34,43 @@ const ResetPasswordPage = () => {
   const navigate = useNavigate();
 
   const email = location.state?.email;
-const resetToken = location.state?.resetToken;
+  const resetToken = location.state?.resetToken;
   const [showPassword, setShowPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const { mutate: resetPasswordMutation, isPending } = useResetPassword();
 
-  const handleResetPassword = () => {
+ const handleResetPassword = () => {
 
-    if (!newPassword || !confirmPassword) {
-      alert("Please fill all fields");
-      return;
-    }
+  if (!newPassword || !confirmPassword) {
+    toast.error("Please fill all fields");
+    return;
+  }
 
-    if (newPassword !== confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
+  if (newPassword !== confirmPassword) {
+    toast.error("Passwords do not match");
+    return;
+  }
 
-    resetPasswordMutation(
-      {
-        email: email,
-        new_password: newPassword
+  resetPasswordMutation(
+    {
+      email: email,
+      reset_token: resetToken,
+      new_password: newPassword
+    },
+    {
+      onSuccess: () => {
+        toast.success("Password reset successfully");
+
+        navigate("/login");
       },
-      {
-        onSuccess: (data) => {
-          alert("Password reset successfully");
-
-          navigate("/login");
-        },
-        onError: (error) => {
-          alert(error.response?.data?.message || "Reset failed");
-        }
+      onError: (error) => {
+        toast.error(error.response?.data?.message || "Reset failed");
       }
-    );
-  };
+    }
+  );
+};
 
   return (
     <PageWrapper>

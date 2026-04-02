@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchDepartments, createDepartment } from "../../../services/Admin/departmentService";
+import { fetchDepartments, createDepartment,fetchDepartmentEmployees } from "../../../services/Admin/departmentService";
 import { toast } from "react-hot-toast";
 
 export const useDepartments = (page = 1, page_size = 10) => {
@@ -25,5 +25,19 @@ export const useCreateDepartment = () => {
       );
 
     },
+  });
+};
+
+export const useDepartmentEmployees = (
+  departmentId,
+  page = 1,
+  page_size = 10
+) => {
+  return useQuery({
+    queryKey: ["department-employees", departmentId, page, page_size],
+    queryFn: () =>
+      fetchDepartmentEmployees({ departmentId, page, page_size }),
+    enabled: !!departmentId, // prevent call if no ID
+    keepPreviousData: true,
   });
 };

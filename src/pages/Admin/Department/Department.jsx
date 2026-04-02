@@ -17,19 +17,14 @@ import Pagination from "../../../components/Pagination/Pagination";
 
 const DepartmentUI = ({
   departments = [],
-  employees = [], 
+  employees = [],
   onCardClick,
   currentPage,
   totalPages,
   onPageChange,
 }) => {
 
- const getHeadNames = (headIds) => {
-  if (!headIds?.length) return "Not Assigned";
-  return headIds
-    .map(id => employees.find(emp => emp.id === id)?.name || `User ${id}`)
-    .join(", ");
-};
+  
 
   return (
     <Container>
@@ -39,9 +34,9 @@ const DepartmentUI = ({
             <IconBox>{dept.name?.charAt(0).toUpperCase() || "?"}</IconBox>
             <DepartmentInfo>
               <DepartmentTitle>{dept.name}</DepartmentTitle>
-           <DepartmentHead>
-  Department Head: {dept.head_names?.length ? dept.head_names.join(", ") : "Not Assigned"}
-</DepartmentHead>
+              <DepartmentHead>
+                Department Head: {dept.head_names?.length ? dept.head_names.join(", ") : "Not Assigned"}
+              </DepartmentHead>
             </DepartmentInfo>
           </LeftSection>
 

@@ -27,3 +27,14 @@ export const updateDepartment = async ({ id, data }) => {
   const res = await api.patch(`/api/departments/${id}/`, data);
   return res.data;
 };
+
+export const fetchDepartmentEmployees = async ({ departmentId, page = 1, page_size = 10 }) => {
+  const response = await api.get(
+    `/api/departments/${departmentId}/employees`,
+    {
+      params: { page, page_size },
+    }
+  );
+
+  return response.data;
+};

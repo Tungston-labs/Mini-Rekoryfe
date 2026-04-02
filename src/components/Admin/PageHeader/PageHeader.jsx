@@ -58,7 +58,15 @@ const PageHeader = ({ employee }) => {
         <Column>
           <InfoRow>
             <Label>Joining Date</Label>
-            <Value>: {employee.joining_date}</Value>
+<Value>
+  : {employee.joining_date
+      ? new Date(employee.joining_date).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        })
+      : "N/A"}
+</Value>
           </InfoRow>
           <InfoRow>
             <Label>Email</Label>

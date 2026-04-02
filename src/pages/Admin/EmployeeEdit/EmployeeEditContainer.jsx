@@ -13,8 +13,10 @@ function EmployeeEditContainer() {
     const navigate = useNavigate();
     const { id } = useParams();
     const { data: employee, } = useEmployee(id);
-const { data, isLoading } = useDepartments();
-const departments = data?.results || [];
+    const [page, setPage] = useState(1);
+    const [departments, setDepartments] = useState([]);
+    const { data, isLoading } = useDepartments(page, 10);
+    // const departments = data?.results || [];
     const updateMutation = useUpdateEmployee();
     const toggleStatusMutation = useToggleEmployeeStatus();
     const [formData, setFormData] = useState({
@@ -31,6 +33,13 @@ const departments = data?.results || [];
         phone: "",
         is_active: true,
     });
+
+    useEffect(() => {
+        if (data?.results) {
+            setDepartments((prev) => [...prev, ...data.results]);
+        }
+    }, [data]);
+
     useEffect(() => {
         if (employee) {
             setFormData({
@@ -108,6 +117,8 @@ const departments = data?.results || [];
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
                 departments={departments}
+                setPage={setPage}
+                hasNext={data?.next}
             />
         </>
     );

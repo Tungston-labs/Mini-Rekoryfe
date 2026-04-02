@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import EmployeeForm from "./EmployeeForm";
 import Topbar from "../../../components/SuperAdmin/Topbar/Topbar";
 import PageHeader from "../../../components/SuperAdmin/PageHeader/PageHeader";
@@ -7,8 +7,10 @@ import { useDepartments } from "../../../hooks/Admin/department/useDepartments";
 
 function EmployeeFormContainer() {
   const createEmployeeMutation = useCreateEmployee();
-  const { data, isLoading: deptLoading } = useDepartments();
-  const departments = data?.results || [];
+const [page, setPage] = useState(1);
+const [departments, setDepartments] = useState([]);
+
+const { data, deptLoading } = useDepartments(page, 10);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     avatar: null,
@@ -25,6 +27,11 @@ function EmployeeFormContainer() {
     role: "",
     phone: "",
   });
+  useEffect(() => {
+  if (data?.results) {
+    setDepartments((prev) => [...prev, ...data.results]);
+  }
+}, [data]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -137,6 +144,8 @@ function EmployeeFormContainer() {
         handleImageUpload={handleImageUpload}
         isLoading={createEmployeeMutation.isPending}
         departments={departments}
+          setPage={setPage}
+  hasNext={data?.next}
       />
     </>
   );

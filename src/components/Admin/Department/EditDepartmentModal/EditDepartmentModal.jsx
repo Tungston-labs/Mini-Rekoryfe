@@ -16,39 +16,39 @@ import {
 
 import Select from "react-select";
 import { customStyles } from "./EditDepartmentModal.styles";
-import { useEmployees } from "../../../../hooks/Admin/employee/useEmployees";
 
-const EditDepartmentModal = ({ isOpen, onClose, department, onSave }) => {
+
+const EditDepartmentModal = ({ isOpen, onClose, department, onSave, employees = [] }) => {
   const [name, setName] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   // Fetch all employees for dropdown
-  const { data: employeesData } = useEmployees({ page: 1, page_size: 100 });
-  const allEmployees = employeesData?.results || [];
+
+
 
   // Map employees for react-select options
-  const employeeOptions = allEmployees.map(emp => ({
-    value: emp.id,
-    label: emp.name,
-  }));
+ const employeeOptions = employees.map(emp => ({
+  value: emp.id,
+  label: emp.name,
+}));
 
   // When modal opens or department changes, set current values
-  useEffect(() => {
-    if (department) {
-      setName(department.name || "");
+ useEffect(() => {
+  if (department) {
+    setName(department.name || "");
 
-      if (department.head_ids) {
-        const formattedHeads = department.head_ids.map(headId => {
-          const employee = allEmployees.find(emp => emp.id === headId);
-          return {
-            value: headId,
-            label: employee?.name || `User ${headId}`,
-          };
-        });
-        setSelectedOptions(formattedHeads);
-      }
+    if (department.head_ids) {
+      const formattedHeads = department.head_ids.map(head => ({
+        value: head.id,
+        label: head.name,
+      }));
+
+      setSelectedOptions(formattedHeads);
+    } else {
+      setSelectedOptions([]);
     }
-  }, [department, allEmployees]);
+  }
+}, [department]);
 
   if (!isOpen) return null;
 

@@ -18,8 +18,13 @@ import { useNavigate } from "react-router-dom";
 import { FaChevronLeft } from "react-icons/fa6";
 const Topbar = ({ title, showBack = false, onBack }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { logout } = useContext(AuthContext);
+  const { logout ,user} = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const role = user?.role;
+const avatarLetter = role === "company" ? "C" : "S";
+const userName = role === "company" ? "Company" : "Super Admin";
+const userRole = "Admin";
 
   const handleLogoutConfirm = () => {
     logout(); 
@@ -40,11 +45,11 @@ const Topbar = ({ title, showBack = false, onBack }) => {
         </LeftSection>
 
         <ProfileSection>
-          <Avatar>S</Avatar>
-          <UserInfo>
-            <UserName>Super Admin</UserName>
-            <UserRole>Admin</UserRole>
-          </UserInfo>
+       <Avatar>{avatarLetter}</Avatar>
+<UserInfo>
+  <UserName>{userName}</UserName>
+  <UserRole>{userRole}</UserRole>
+</UserInfo>
 
           <LogoutButton onClick={() => setIsModalOpen(true)}>Logout</LogoutButton>
         </ProfileSection>

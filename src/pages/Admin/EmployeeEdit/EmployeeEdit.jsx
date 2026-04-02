@@ -22,7 +22,9 @@ function EmployeeEdit({
     handleChange,
     handleSubmit,
     handleCancel,
-    departments = []
+    departments = [],
+    setPage,
+    hasNext
 }) {
     return (
         <Wrapper>
@@ -117,8 +119,19 @@ function EmployeeEdit({
                             name="department"
                             value={formData.department}
                             onChange={handleChange}
+                            onScroll={(e) => {
+                                const target = e.target;
+
+                                const bottom =
+                                    target.scrollHeight - target.scrollTop <= target.clientHeight + 5;
+
+                                if (bottom && hasNext) {
+                                    setPage((prev) => prev + 1);
+                                }
+                            }}
                         >
                             <option value="">Select Department</option>
+
                             {departments.map((dept) => (
                                 <option key={dept.id} value={dept.id}>
                                     {dept.name}

@@ -18,11 +18,13 @@ import { PiBuildings,  } from "react-icons/pi";
 import { PiUsersFour } from "react-icons/pi";
 import logo from "../../assets/images/logo.png";
 import illustration from "../../assets/images/map.png";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const Sidebar = ({ role }) => {
   const location = useLocation();
   const [openDropdowns, setOpenDropdowns] = useState({});
-
+const { user } = useContext(AuthContext);
   const menuConfig = {
     superadmin: [
       { label: "Dashboard", path: "/superadmin/dashboard", icon: <GiCube size={18} /> },
@@ -62,7 +64,10 @@ const Sidebar = ({ role }) => {
     <SidebarContainer>
       <TopSection>
         <LogoWrapper>
-          <Logo src={logo} alt="Rekory" />
+ <Logo
+  src={user?.profile_pic || logo}
+  alt="profile"
+/>
         </LogoWrapper>
 
         <Menu>

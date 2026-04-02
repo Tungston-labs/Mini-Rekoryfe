@@ -61,7 +61,7 @@ const handleSubmit = async () => {
   if (!validate()) return;
 
   try {
-    const { allowed_roles, email, logo, ...rest } = formData;
+    const { allowed_roles, email, logo, registration_date,...rest } = formData;
 
     const updateData = { ...rest };
 

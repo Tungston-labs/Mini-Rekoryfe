@@ -19,7 +19,7 @@ import {
   Description,
   BackLink
 } from "./LoginPage/LoginPage.styles";
-
+import toast from "react-hot-toast";
 import logo from "../../assets/images/logo.png";
 import illustration from "../../assets/images/map.png";
 import { useNavigate } from "react-router-dom";
@@ -33,14 +33,13 @@ const navigate = useNavigate();
 
 const handleSubmit = () => {
   if (!email) {
-    alert("Please enter email");
+    toast.error("Please enter email");
     return;
   }
 
   sendOtp(email, {
     onSuccess: (data) => {
-      alert(data.message);
-
+      toast.success(data.message);
 
       navigate("/verify-otp", { state: { email } });
 
@@ -48,7 +47,7 @@ const handleSubmit = () => {
     },
     onError: (error) => {
       console.log(error.response?.data);
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
   });
 };

@@ -101,7 +101,9 @@ export const RedSelectWrapper = styled.div`
 
   .react-select__placeholder {
     /* color: #c61217; */
-      color:rgb(115, 122, 134);
+      color:rgb(141, 145, 153);
+      font-size: 14px;
+      font-family: "poppins", sans-serif;
   }
 
   .react-select__menu {

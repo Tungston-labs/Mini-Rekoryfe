@@ -26,11 +26,15 @@ export const getCompanyAttendance = async ({
   return response.data;
 };
 
-export const getEmployeeRoute = async (employeeId, date) => {
+export const getEmployeeRoute = async ({
+  employeeId,
+  date,
+  order = "asc",
+}) => {
   const response = await axios.get(
     `/api/attendance/employees/${employeeId}/route/`,
     {
-      params: { date },
+      params: { date, order },
     }
   );
 

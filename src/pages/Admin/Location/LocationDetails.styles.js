@@ -18,7 +18,7 @@ export const DashboardContainer = styled.div`
 
 export const RouteSidebar = styled.div`
   width: 380px;
-  height: 720px;
+  height: 600px;
   background: white;
   padding: 20px;
   border-radius: 12px;

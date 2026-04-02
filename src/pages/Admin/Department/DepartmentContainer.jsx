@@ -4,9 +4,9 @@ import PageHeader from "../../../components/SuperAdmin/PageHeader/PageHeader";
 import AddDepartmentModal from "../../../components/Admin/Department/AddDepartment/AddDepartmentModal";
 import DepartmentUI from "./Department";
 import EditDepartmentModal from "../../../components/Admin/Department/EditDepartmentModal/EditDepartmentModal";
-import { useDepartments, useCreateDepartment } from "../../../hooks/Admin/department/useDepartments";
+import { useDepartments, useCreateDepartment,useDepartmentEmployees } from "../../../hooks/Admin/department/useDepartments";
 import { useUpdateDepartment } from "../../../hooks/Admin/department/useUpdateDepartment";
-import { useEmployees } from "../../../hooks/Admin/employee/useEmployees";
+
 import PageSkeleton from "../../../components/Skeleton/PageSkeleton";
 
 const DepartmentContainer = () => {
@@ -22,8 +22,11 @@ const DepartmentContainer = () => {
 
   const createMutation = useCreateDepartment();
   const updateMutation = useUpdateDepartment();
-  const { data: employeesData } = useEmployees({ page: 1, page_size: 100 });
-  const employees = employeesData?.results || [];
+
+const { data: employeeData, isLoading: empLoading } =
+  useDepartmentEmployees(selectedDept?.id, 1, 100); 
+
+const employees = employeeData?.results || [];
 
   const handleAddDepartment = () => setIsAddModalOpen(true);
 
@@ -43,7 +46,7 @@ const DepartmentContainer = () => {
   updateMutation.mutate(
     {
       id: selectedDept.id,
-      data: { name: updatedDept.name, head_ids: updatedDept.head_ids },
+      data: { name: updatedDept.name, employee_ids: updatedDept.head_ids },
     },
     {
       onSuccess: (res) => {
@@ -59,11 +62,9 @@ const DepartmentContainer = () => {
   );
 };
 
- const enrichedDepartments = departments.map(dept => ({
+const enrichedDepartments = departments.map(dept => ({
   ...dept,
-  head_names: (dept.head_ids || [])
-    .map(id => employees.find(emp => emp.id === id)?.name)
-    .filter(Boolean), // remove undefined
+head_names: (dept.head_ids || []).map(head => head.name),
 }));
 
   return (
@@ -101,6 +102,7 @@ const DepartmentContainer = () => {
           onClose={() => setIsPopupOpen(false)}
           department={selectedDept}
           onSave={handleUpdateDepartment}
+              employees={employees} 
         />
       )}
     </>

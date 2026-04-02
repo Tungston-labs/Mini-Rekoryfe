@@ -18,13 +18,15 @@ import EmployeeList from "../pages/Admin/EmployeeList/EmployeeList.jsx";
 import DepartmentContainer from "../pages/Admin/Department/DepartmentContainer.jsx";
 import EmployeeEditContainer from "../pages/Admin/EmployeeEdit/EmployeeEditContainer.jsx";
 import LocationDetailsContainer from "../pages/Admin/Location/LocationDetailsContainer.jsx";
+import RootRedirect from "./RootRedirect.jsx";
 const AppRoutes = () => {
   return (
     <Routes>
+        <Route path="/" element={<RootRedirect />} />
       <Route path="/login" element={<Login />} />
       <Route path="/forget" element={<ForgotPasswordForm />} />
       <Route path="/reset-password" element={<ResetPasswordForm />} />
-      <Route path="/verify-otp" element={<OtpForm/>} />
+      <Route path="/verify-otp" element={<OtpForm />} />
       <Route
         element={
           <ProtectedRoute role="superadmin">
