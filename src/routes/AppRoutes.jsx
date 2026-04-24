@@ -11,7 +11,7 @@ import EmployeeFormContainer from "../pages/Admin/EmployeeAdd/EmployeeFormContai
 import EmployeeAttendance from "../pages/Admin/Attendance/EmployeeAttendance.jsx";
 import ForgotPasswordForm from "../pages/Auth/ForgotPasswordForm.jsx";
 import ResetPasswordForm from "../pages/Auth/ResetPasswordForm.jsx"
-import OtpForm from "../pages/Auth/OtpForm.jsx";
+import OtpForm from "../pages/Auth/ OtpForm.jsx";
 import SuperAdminDashboardContainer from "../pages/Superadmin/SuperAdminDashboard/SuperAdminDashboardContainer.jsx";
 import Dashboard from "../pages/Admin/Dashboard/Dashboard.jsx";
 import EmployeeList from "../pages/Admin/EmployeeList/EmployeeList.jsx";
