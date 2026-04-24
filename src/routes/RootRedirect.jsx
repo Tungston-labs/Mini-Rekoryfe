@@ -5,7 +5,9 @@ import { AuthContext } from "../context/AuthContext";
 const RootRedirect = () => {
   const { user, loading } = useContext(AuthContext);
 
-  if (loading) return null;
+  if (loading) {
+    return <Navigate to="/login" replace />;
+  }
 
   if (!user) {
     return <Navigate to="/login" replace />;

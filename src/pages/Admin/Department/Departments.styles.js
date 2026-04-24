@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  padding: 40px;
+  padding: 20px;
 `;
 
 export const Card = styled.div`

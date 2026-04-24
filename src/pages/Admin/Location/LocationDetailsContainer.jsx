@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Topbar from "../../../components/SuperAdmin/Topbar/Topbar";
 import PageHeader from "../../../components/Admin/PageHeader/PageHeader";
-import { useParams } from "react-router-dom";
+import { useParams,useSearchParams } from "react-router-dom";
 import LocationDetails from "./LocationDetails";
 import { useEmployeeRoute } from "../../../hooks/Admin/attendance/useEmployeeRoute";
 import { useEmployee } from "../../../hooks/Admin/employee/useUpdateEmployee";
@@ -37,11 +37,15 @@ const DateInput = styled.input`
 
 const LocationDetailsContainer = () => {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+
+const queryDate = searchParams.get("date");
+
 const employeeId = Number(id);
-  const [date, setDate] = useState(() => {
-    const today = new Date();
-    return today.toISOString().split("T")[0];
-  });
+
+const [date, setDate] = useState(
+  queryDate || new Date().toISOString().split("T")[0]
+);
 
   const { data, isLoading, isError, error } = useEmployeeRoute( {employeeId: id, date});
   const { data: employee, isLoading: employeeLoading } = useEmployee(id);

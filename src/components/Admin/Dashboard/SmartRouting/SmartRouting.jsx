@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import useEmployees from "../../../../hooks/Admin/dashboard/useEmployees";
 import {
   Wrapper,
   LeftPanel,
-  RightPanel,
   Header,
   Title,
   Subtitle,
@@ -15,65 +15,110 @@ import {
   Name,
   Status,
   Arrow,
-  MapContainer,
 } from "./SmartRouting.styles";
-
+import { MdLocationDisabled } from "react-icons/md";
 import { FiChevronRight } from "react-icons/fi";
-
-const employeesData = [
-  { id: 1, name: "Aditi Sharma", status: "Travelling", time: "09:00AM" },
-  { id: 2, name: "Joel Mathew", status: "Travelling", time: "09:00AM" },
-  { id: 3, name: "Riya Thomas", status: "Onsite", time: "09:00AM" },
-  { id: 4, name: "Rakesh R", status: "Idle", time: "" },
-];
-
+import PageSkeleton from "../../../Skeleton/PageSkeleton";
+import { FaUserCircle } from "react-icons/fa";
 const SmartRouting = () => {
   const [activeFilter, setActiveFilter] = useState("All");
-  const [selected, setSelected] = useState(1);
+  const [selected, setSelected] = useState(null);
 
+  const statusMap = {
+    All: "",
+    Active: "active",
+    "Not Active": "inactive",
+  };
+  const formatTime = (time) => {
+    if (!time) return "";
+
+    const date = new Date(time);
+
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
+
+  const { employees, loading } = useEmployees(statusMap[activeFilter]);
+
+    useEffect(() => {
+  if (employees.length > 0 && selected === null) {
+    setSelected(employees[0].id);
+  }
+}, [employees]);
   return (
     <Wrapper>
       <LeftPanel>
         <Header>
-          <Title>Smart Routing, Fri, Feb 2026</Title>
+          <Title>
+            Smart Routing,{" "}
+            {new Date().toLocaleDateString("en-US", {
+              weekday: "short",
+              month: "short",
+              year: "numeric",
+            })}
+          </Title>
           <Subtitle>You can track locations of your employees.</Subtitle>
         </Header>
 
+        {/* Filters */}
         <Filters>
           {["All", "Active", "Not Active"].map((filter) => (
             <FilterButton
               key={filter}
               $active={activeFilter === filter}
-              onClick={() => setActiveFilter(filter)}   >
+              onClick={() => setActiveFilter(filter)}
+            >
               {filter}
             </FilterButton>
           ))}
         </Filters>
 
+        {/* Employee List */}
         <EmployeeList>
-          {employeesData.map((emp) => (
-            <EmployeeCard
-              key={emp.id}
-              $active={selected === emp.id}
-              onClick={() => setSelected(emp.id)}
-            >
-              <Avatar src="https://i.pravatar.cc/40" />
+          {loading ? (
+            <div> <PageSkeleton /> </div>
+          ) : employees.length === 0 ? (
+            <p>No employees found</p>
+          ) : (
+            employees.map((emp) => (
+              <EmployeeCard
+                key={emp.id}
+                $active={selected === emp.id}
+                onClick={() => setSelected(emp.id)}
+              >
+                {emp.profile_pic ? (
+                  <Avatar src={emp.profile_pic} />
+                ) : (
+                  <FaUserCircle size={40} color="#d3d4d4" />
+                )}
 
-              <Info>
-                <Name>{emp.name}</Name>
-                <Status>
-                  {emp.time && `${emp.time}, `} {emp.status}
-                </Status>
-              </Info>
+                <Info>
+                  <Name>{emp.name}</Name>
+                  <Status $active={!!emp.punch_in_time}>
+                    {emp.punch_in_time ? (
+                      `${formatTime(emp.punch_in_time)}, Active`
+                    ) : (
+                      <>
+                        <MdLocationDisabled style={{ marginRight: "5px" }} />
+                        Not Active
+                      </>
+                    )}
+                  </Status>
+                </Info>
 
-              <Arrow>
-                <FiChevronRight />
-              </Arrow>
-            </EmployeeCard>
-          ))}
+                <Arrow>
+                  <FiChevronRight />
+                </Arrow>
+              </EmployeeCard>
+            ))
+          )}
         </EmployeeList>
       </LeftPanel>
-      <RightPanel>
+      {/* <RightPanel>
         <MapContainer>
           <iframe
             title="map"
@@ -83,7 +128,7 @@ const SmartRouting = () => {
             src="https://maps.google.com/maps?q=washington&t=&z=10&ie=UTF8&iwloc=&output=embed"
           />
         </MapContainer>
-      </RightPanel>
+      </RightPanel> */}
     </Wrapper>
   );
 };

@@ -34,15 +34,11 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       >
-
         <Route path="/superadmin/dashboard" element={<SuperAdminDashboardContainer />} />
         <Route path="/superadmin/companies" element={<CompanyList />} />
         <Route path="/superadmin/companies/add" element={<CompanyAddContainer />} />
         <Route path="/superadmin/companies/edit/:id" element={<CompanyEditContainer />} />
         <Route path="/superadmin/companies/info/:id" element={<CompanyInfo />} />
-
-
-
       </Route>
 
       <Route

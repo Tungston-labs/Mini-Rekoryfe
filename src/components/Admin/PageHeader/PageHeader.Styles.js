@@ -2,24 +2,47 @@ import styled from "styled-components";
 
 export const HeaderContainer = styled.div`
   background: #f3f4f6;
-  padding: 20px 40px;
+  padding: 16px 20px;
+
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+
+  flex-wrap: wrap; /* ✅ allows stacking on small screens */
+
+  @media (min-width: 768px) {
+    padding: 20px 40px;
+    flex-wrap: nowrap;
+  }
 `;
 
 export const Avatar = styled.img`
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
+
+  @media (min-width: 768px) {
+    width: 60px;
+    height: 60px;
+  }
 `;
 
 export const GridContainer = styled.div`
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 60px;
+
+  grid-template-columns: 1fr; /* ✅ mobile: 1 column */
+  gap: 16px;
+
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, 1fr); /* tablet */
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr); /* desktop */
+    gap: 40px; /* reduced from 60 */
+  }
 `;
 
 export const Column = styled.div`
@@ -27,41 +50,45 @@ export const Column = styled.div`
   flex-direction: column;
 `;
 
-export const TopText = styled.h3`
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #111827;
-`;
-
-export const BottomText = styled.p`
-  margin-top: 8px;
-  font-size: 14px;
-  color: #6b7280;
-`;
 export const InfoRow = styled.div`
   display: flex;
-  gap: 8px;
-  margin-bottom: 10px;
+  gap: 6px;
+  margin-bottom: 8px;
+  flex-wrap: wrap; /* ✅ prevents overflow */
 `;
 
 export const Label = styled.span`
-  min-width: 110px;
-  color:rgb(15, 15, 15);
-  font-weight: 100;
-   font-size: 16px;
+  min-width: 90px;
+  color: rgb(15, 15, 15);
+  font-weight: 400;
+  font-size: 13px;
+
+  @media (min-width: 768px) {
+    font-size: 14px;
+    min-width: 110px;
+  }
 `;
 
 export const Value = styled.span`
-   color: #111827;
-   font-size: 14px;
+  color: #111827;
+  font-size: 13px;
+  word-break: break-word;
+  @media (min-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 export const NameValue = styled.span`
-font-weight:600
+  font-weight: 600;
+  font-size: 15px;
+
+  @media (min-width: 768px) {
+    font-size: 16px;
+  }
 `;
+
 export const IdValue = styled.span`
-  color:rgb(15, 15, 15);
- font-weight: 100;
- font-size: 14px;
+  color: rgb(15, 15, 15);
+  font-weight: 400;
+  font-size: 13px;
 `;

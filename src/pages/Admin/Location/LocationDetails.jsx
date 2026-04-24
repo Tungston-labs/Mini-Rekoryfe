@@ -63,9 +63,9 @@ const LocationDetails = ({ routeData }) => {
         })}
       </S.RouteSidebar>
 
-      <S.MapContainer>
+      {/* <S.MapContainer>
         <div style={{ padding: "20px" }}>Map View</div>
-      </S.MapContainer>
+      </S.MapContainer> */}
     </S.DashboardContainer>
   );
 };

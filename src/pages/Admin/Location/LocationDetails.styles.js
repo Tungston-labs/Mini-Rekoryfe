@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
 export const DashboardContainer = styled.div`
-  display: flex;
+  /* display: flex; */
   gap: 20px;
   padding: 24px;
   font-family: 'Inter', sans-serif;
+
 
    @media (max-width: 1024px) {
     gap: 16px;
@@ -17,9 +18,8 @@ export const DashboardContainer = styled.div`
 `;
 
 export const RouteSidebar = styled.div`
-  width: 380px;
+  /* width: 380px; */
   height: 600px;
-  background: white;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0px 2.7px 25px 0px #4545501A;
@@ -81,14 +81,13 @@ export const MarkerCircle = styled.div`
   align-items: center;
   justify-content: center;
   font-weight: 600;
-
   background-color: #fff;
 
   border: 1px solid
     ${({ $type }) =>
-      $type === "punch_out"
-        ? "#BA0D11"
-        : "#00A60B"};
+    $type === "punch_out"
+      ? "#BA0D11"
+      : "#00A60B"};
 
   color: ${({ $type }) =>
     $type === "punch_out"
@@ -102,6 +101,7 @@ export const LocationCard = styled.div`
   border: 1px solid ${props => props.$error ? '#dc3545' : '#e0e0e0'};
   border-radius: 8px;
   background: ${props => props.$error ? 'white' : 'white'};
+  
 `;
 
 export const TimeStamp = styled.span`
@@ -112,26 +112,27 @@ export const TimeStamp = styled.span`
   gap: 5px;
 `;
 
-export const MapContainer = styled.div`
-  flex: 1;
-  border-radius: 12px;
-  overflow: hidden;
-  background: url('https://your-map-provider-url.com/map.png'); /* Placeholder */
-  background-size: cover;
-  position: relative;
-  border: 1px solid #ddd;
+// export const MapContainer = styled.div`
+//   flex: 1;
+//   border-radius: 12px;
+//   overflow: hidden;
+//   background: url('https://your-map-provider-url.com/map.png'); /* Placeholder */
+//   background-size: cover;
+//   position: relative;
+//   border: 1px solid #ddd;
 
-    @media (max-width: 768px) {
-    height: 400px;
-  }
+//     @media (max-width: 768px) {
+//     height: 400px;
+//   }
 
-  @media (max-width: 480px) {
-    height: 300px;
-  }
-`;
+//   @media (max-width: 480px) {
+//     height: 300px;
+//   }
+// `;
 export const PageHeaderWrapper = styled.div`
   padding: 0 24px;
   margin-bottom: 20px;
+  
 `;
 
 export const PageTitle = styled.h2`
@@ -179,10 +180,11 @@ export const LocationText = styled.small`
 export const MapIconWrapper = styled.div`
   display: flex;
   align-items: center;
+  
 
   svg {
     color: ${({ $error }) =>
-      $error ? "#BA0D11" : "#00A60B"};
+    $error ? "#BA0D11" : "#00A60B"};
   }
 `;
 

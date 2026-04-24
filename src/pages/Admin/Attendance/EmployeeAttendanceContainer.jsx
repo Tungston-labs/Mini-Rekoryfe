@@ -12,6 +12,7 @@ const formatTime = (isoString) => {
   });
 };
 
+
 const isDifferentDate = (checkIn, checkOut) => {
   if (!checkIn || !checkOut) return false;
 
@@ -23,6 +24,7 @@ const isDifferentDate = (checkIn, checkOut) => {
 
 const useEmployeeAttendance = () => {
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [page, setPage] = useState(1);
   const [department, setDepartment] = useState("");
   const [date, setDate] = useState(
@@ -36,12 +38,22 @@ const useEmployeeAttendance = () => {
     page,
     department,
     page_size: pageSize,
-    search,
+      search: debouncedSearch,
+    // search,
   });
 
   useEffect(() => {
     setPage(1);
   }, [department, date, search]);
+
+
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setDebouncedSearch(search);
+  }, 500); 
+
+  return () => clearTimeout(timer);
+}, [search]);
 
   const employees = useMemo(() => {
     if (!data?.employees) return [];

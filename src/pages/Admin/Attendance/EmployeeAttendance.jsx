@@ -64,7 +64,7 @@ function EmployeeAttendancePage() {
   } = useEmployeeAttendance();
 
   const handleRowClick = (row) =>
-    navigate(`/admin/employee/location/${row.employee_id}`);
+    navigate(`/admin/employee/location/${row.employee_id}?date=${date}`);
 
   if (isLoading) {
     return (
@@ -91,21 +91,21 @@ function EmployeeAttendancePage() {
         onSearchChange={(e) => setSearch(e.target.value)}
       />
 
-  {isLoading ? (
+      {isLoading ? (
         <div style={{ padding: "20px" }}><PageSkeleton /></div>
       ) : (
-      <ReusableTable
-        columns={columns}
-        data={employees}
-        loading={isFetching}
-        onRowClick={handleRowClick}
-        pagination={{
-          currentPage: page,
-          totalPages,
-          onPageChange: setPage,
-        }}
-      />
-            )}
+        <ReusableTable
+          columns={columns}
+          data={employees}
+          loading={isFetching}
+          onRowClick={handleRowClick}
+          pagination={{
+            currentPage: page,
+            totalPages,
+            onPageChange: setPage,
+          }}
+        />
+      )}
     </div>
   );
 }
