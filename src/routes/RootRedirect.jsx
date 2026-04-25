@@ -6,7 +6,7 @@ const RootRedirect = () => {
   const { user, loading } = useContext(AuthContext);
 
   if (loading) {
-    return <Navigate to="/login" replace />;
+    return <div>Loading...</div>;
   }
 
   if (!user) {
