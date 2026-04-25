@@ -10,7 +10,7 @@ export const getEmployees = async (status = "inactive") => {
     const res = await api.get(`/api/attendance/employees/list/`, {
       params: { status },
     });
-    return res.data;
+    return res.data;6
   } catch (error) {
     console.error("❌ Error fetching employees:", error);
     throw error;

@@ -43,7 +43,7 @@ export const Heading = styled.h2`
   line-height: 1.3;
   margin: 0;
     margin-bottom: 24px;
-  @media (max-width: 1300px) {
+  @media (max-width: 1440px) {
     font-size: 25px;
     margin-bottom: 24px;
   }
@@ -56,7 +56,7 @@ export const Description = styled.p`
   opacity: 0.95;
   margin: 0;
 
-  @media (max-width: 1300px) {
+  @media (max-width: 1440px) {
     font-size: 12px;
     line-height: 20px;
   }
