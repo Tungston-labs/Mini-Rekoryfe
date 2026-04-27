@@ -7,10 +7,11 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // 🔹 Login
+  // 🔹 LOGIN
   const login = async (email, password) => {
-    const response = await api.post("/api/auth/login/", { email, password });
-    const { access, refresh, user } = response.data;
+    const res = await api.post("/api/auth/login/", { email, password });
+
+    const { access, refresh, user } = res.data;
 
     localStorage.setItem("accessToken", access);
     localStorage.setItem("refreshToken", refresh);
@@ -20,25 +21,38 @@ export const AuthProvider = ({ children }) => {
     return user;
   };
 
-  // 🔹 Logout
+  // 🔹 LOGOUT
   const logout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("user");
-
+    localStorage.clear();
     setUser(null);
     window.location.href = "/login";
   };
 
-  // 🔹 Restore user on app start
+  // 🔥 VALIDATE SESSION ON APP START
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    const accessToken = localStorage.getItem("accessToken");
+    const initAuth = async () => {
+      const token = localStorage.getItem("accessToken");
 
-    if (storedUser && accessToken) {
-      setUser(JSON.parse(storedUser));
-    }
-    setLoading(false);
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        // 🔥 IMPORTANT API
+        const res = await api.get("/api/auth/me/");
+        setUser(res.data);
+      } catch (err) {
+        console.log("Session expired");
+
+        localStorage.clear();
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initAuth();
   }, []);
 
   return (

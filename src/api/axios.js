@@ -7,6 +7,7 @@ const api = axios.create({
   baseURL: BASE_URL,
 });
 
+// 🔹 Attach access token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
 
@@ -17,10 +18,12 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// 🔹 Handle 401 (token expired)
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
@@ -33,6 +36,10 @@ api.interceptors.response.use(
       if (newAccess) {
         originalRequest.headers.Authorization = `Bearer ${newAccess}`;
         return api(originalRequest);
+      } else {
+        // 🔴 refresh failed → logout
+        localStorage.clear();
+        window.location.href = "/login";
       }
     }
 

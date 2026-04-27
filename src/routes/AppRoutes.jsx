@@ -27,35 +27,28 @@ const AppRoutes = () => {
       <Route path="/forget" element={<ForgotPasswordForm />} />
       <Route path="/reset-password" element={<ResetPasswordForm />} />
       <Route path="/verify-otp" element={<OtpForm />} />
-      <Route
-        element={
-          <ProtectedRoute role="superadmin">
-            <SuperAdminLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route path="/superadmin/dashboard" element={<SuperAdminDashboardContainer />} />
-        <Route path="/superadmin/companies" element={<CompanyList />} />
-        <Route path="/superadmin/companies/add" element={<CompanyAddContainer />} />
-        <Route path="/superadmin/companies/edit/:id" element={<CompanyEditContainer />} />
-        <Route path="/superadmin/companies/info/:id" element={<CompanyInfo />} />
-      </Route>
 
-      <Route
-        element={
-          <ProtectedRoute role="company">
-            <AdminLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route path="/admin/dashboard" element={<Dashboard />} />
-        <Route path="/admin/department" element={<DepartmentContainer />} />
-        <Route path="/admin/employees" element={<EmployeeList />} />
-        <Route path="/admin/employee/add" element={<EmployeeFormContainer />} />
-        <Route path="/admin/employee/edit/:id" element={<EmployeeEditContainer />} />
-        <Route path="/admin/employees/attendance" element={<EmployeeAttendance />} />
-        <Route path="/admin/employee/location/:id" element={<LocationDetailsContainer />} />
-      </Route>
+     <Route element={<ProtectedRoute role="superadmin" />}>
+  <Route element={<SuperAdminLayout />}>
+    <Route path="/superadmin/dashboard" element={<SuperAdminDashboardContainer />} />
+    <Route path="/superadmin/companies" element={<CompanyList />} />
+    <Route path="/superadmin/companies/add" element={<CompanyAddContainer />} />
+    <Route path="/superadmin/companies/edit/:id" element={<CompanyEditContainer />} />
+    <Route path="/superadmin/companies/info/:id" element={<CompanyInfo />} />
+  </Route>
+</Route>
+
+     <Route element={<ProtectedRoute role="company" />}>
+  <Route element={<AdminLayout />}>
+    <Route path="/admin/dashboard" element={<Dashboard />} />
+    <Route path="/admin/department" element={<DepartmentContainer />} />
+    <Route path="/admin/employees" element={<EmployeeList />} />
+    <Route path="/admin/employee/add" element={<EmployeeFormContainer />} />
+    <Route path="/admin/employee/edit/:id" element={<EmployeeEditContainer />} />
+    <Route path="/admin/employees/attendance" element={<EmployeeAttendance />} />
+    <Route path="/admin/employee/location/:id" element={<LocationDetailsContainer />} />
+  </Route>
+</Route>
     </Routes>
   );
 };

@@ -8,28 +8,24 @@ const refreshAccessToken = async () => {
   if (!refreshToken) return null;
 
   try {
-    const response = await axios.post(
-      `${BASE_URL}/api/auth/refresh/`,
-      { refresh: refreshToken }
-    );
+    const res = await axios.post(`${BASE_URL}/api/auth/refresh/`, {
+      refresh: refreshToken,
+    });
 
-    const { access, refresh } = response.data;
+    const { access, refresh } = res.data;
 
     localStorage.setItem("accessToken", access);
+
+    // 🔥 handle rotation
     if (refresh) {
       localStorage.setItem("refreshToken", refresh);
     }
 
     return access;
-  } catch (error) {
-    console.log("Refresh failed:", error.response?.data);
+  } catch (err) {
+    console.log("Refresh failed");
 
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("user");
-
-    window.location.href = "/login";
-
+    localStorage.clear(); // ❗ do not redirect here
     return null;
   }
 };
