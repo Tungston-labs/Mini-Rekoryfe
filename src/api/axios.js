@@ -7,6 +7,9 @@ const api = axios.create({
   baseURL: BASE_URL,
 });
 
+let isRefreshing = false;
+let queue = [];
+
 // 🔹 Attach access token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
@@ -18,7 +21,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// 🔹 Handle 401 (token expired)
+// 🔹 Handle 401 errors
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -29,15 +32,29 @@ api.interceptors.response.use(
       !originalRequest._retry &&
       !originalRequest.url.includes("/api/auth/refresh/")
     ) {
+      if (isRefreshing) {
+        return new Promise((resolve) => {
+          queue.push((token) => {
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+            resolve(api(originalRequest));
+          });
+        });
+      }
+
       originalRequest._retry = true;
+      isRefreshing = true;
 
       const newAccess = await refreshAccessToken();
 
+      isRefreshing = false;
+
       if (newAccess) {
+        queue.forEach((cb) => cb(newAccess));
+        queue = [];
+
         originalRequest.headers.Authorization = `Bearer ${newAccess}`;
         return api(originalRequest);
       } else {
-        // 🔴 refresh failed → logout
         localStorage.clear();
         window.location.href = "/login";
       }
