@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import api from "../api/axios";
-
+import refreshAccessToken from "../api/refreshToken";
+import { jwtDecode } from "jwt-decode";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -25,28 +26,47 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.clear();
     setUser(null);
-    window.location.href = "/login";
+    window.location.href = "/login"; // you can replace with navigate()
   };
 
-  // 🔥 VALIDATE SESSION ON APP START
+  // 🔥 INIT AUTH (ON APP LOAD)
   useEffect(() => {
     const initAuth = async () => {
       const token = localStorage.getItem("accessToken");
+      const storedUser = localStorage.getItem("user");
 
-      if (!token) {
+      if (!token || !storedUser) {
         setLoading(false);
         return;
       }
 
       try {
-        // 🔥 IMPORTANT API
-        const res = await api.get("/api/auth/me/");
-        setUser(res.data);
-      } catch (err) {
-        console.log("Session expired");
+        const decoded = jwtDecode(token);
+        const isExpired = decoded.exp * 1000 < Date.now();
 
-        localStorage.clear();
-        setUser(null);
+        // 🔥 Refresh only if expired
+        if (isExpired) {
+          console.log("Access expired → refreshing...");
+
+          const newAccess = await refreshAccessToken();
+
+          if (!newAccess) {
+            logout();
+            return;
+          }
+        }
+
+        // ✅ Restore user safely
+        try {
+          const parsedUser = JSON.parse(storedUser);
+          setUser(parsedUser);
+        } catch {
+          logout();
+        }
+
+      } catch (err) {
+        console.log("Invalid token");
+        logout();
       } finally {
         setLoading(false);
       }

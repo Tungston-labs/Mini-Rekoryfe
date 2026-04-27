@@ -25,7 +25,7 @@ const refreshAccessToken = async () => {
   } catch (err) {
     console.log("Refresh failed");
 
-    localStorage.clear(); // ❗ do not redirect here
+    localStorage.clear();
     return null;
   }
 };
