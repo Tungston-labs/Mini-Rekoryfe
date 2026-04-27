@@ -20,10 +20,12 @@ import { MdLocationDisabled } from "react-icons/md";
 import { FiChevronRight } from "react-icons/fi";
 import PageSkeleton from "../../../Skeleton/PageSkeleton";
 import { FaUserCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
 const SmartRouting = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [selected, setSelected] = useState(null);
-
+const navigate = useNavigate();
   const statusMap = {
     All: "",
     Active: "active",
@@ -88,7 +90,10 @@ const SmartRouting = () => {
               <EmployeeCard
                 key={emp.id}
                 $active={selected === emp.id}
-                onClick={() => setSelected(emp.id)}
+             onClick={() => {
+  setSelected(emp.id);
+  navigate(`/admin/employee/location/${emp.id}`);
+}}
               >
                 {emp.profile_pic ? (
                   <Avatar src={emp.profile_pic} />

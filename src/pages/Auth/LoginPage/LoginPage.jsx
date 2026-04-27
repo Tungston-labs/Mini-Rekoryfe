@@ -40,7 +40,10 @@ const LoginPage = ({
   return (
     <PageWrapper>
       <Left>
-        <LoginBox>
+<LoginBox as="form" onSubmit={(e) => {
+  e.preventDefault();
+  onLogin();
+}}>
           <Title>Welcome Back!</Title>
           <Subtitle>
             Please sign in to your Mini Rekory account
@@ -80,9 +83,9 @@ const LoginPage = ({
 
           {apiError && <ErrorText>{apiError}</ErrorText>}
 
-          <LoginButton onClick={onLogin} disabled={loading}>
-            {loading ? "Logging..." : "LOG IN"}
-          </LoginButton>
+         <LoginButton type="submit" disabled={loading}>
+  {loading ? "Logging..." : "LOG IN"}
+</LoginButton>
         </LoginBox>
       </Left>
 

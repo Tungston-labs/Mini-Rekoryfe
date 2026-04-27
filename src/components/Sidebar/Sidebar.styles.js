@@ -26,7 +26,7 @@ export const LogoWrapper = styled.div`
 `;
 
 export const Logo = styled.img`
-  width: 70px;
+  width: 60%;
 `;
 
 export const Menu = styled.div`
